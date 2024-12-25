@@ -1,2 +1,1 @@
-# thesis
-Repo for my PhD thesis
+I wrote my PhD thesis using RMarkdown and various R packages. This repo contains the writeup of my thesis so you can see how it was all put together. None of the actual analysis code or data are included as I am not permitted to share these, however you can still see the output of the analyses in the various csv files and images.
