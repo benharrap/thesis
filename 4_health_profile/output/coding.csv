@@ -1,0 +1,12 @@
+Condition,HMDC,MHIS/MIND,IDEA,WARDA-BD,WARDA-CP
+Any intellectual disability,"F7*, F8*, Q85.0, Q85.1, Q86.0 Q87.4, Q87.14, Q90*, Q92.0, Q92.1, Q92.2, Q92.3, Q92.4, Q92.5, Q93.3, Q93.4, Q93.5, Q99.2","F7*, F8*, Q86.0, Q90*","ASD_Any = ""Yes"", Disability_Type_Main = ""Intellectual Disability"", Disability_Type_Main = ""GDD"", client_diag* = ""Down Syndrome"",  client_diag* = ""Down Trnslocation"",  client_diag* = ""Maternal Alcohol"",  client_diag* = ""Maternal Intoxication""",758*,(2) 'Mild impairment' to (5) 'Probably intellectually disabled'
+Autism,"F84.0, F84.1, F84.5","F84.0, F84.1, F84.5","ASD_Any = ""Yes""",,
+FASD,Q86.0,Q86.0,"Client_diag* = ""Maternal Alcohol"", ""Maternal Intoxication""",75992,
+Psychological/ Developmental Delay,F8*,F8*,"Disability_Type_Main = ""GDD""",,
+Any mental ill-health,"F0*, F1*, F2*, F3*, F4*, F5*, F6*, F9*","F0*, F1*, F2*, F3*, F4*, F5*, F6*, F9*",,,
+Anxiety,"F40*, F41*, F93.0, F93.1, F93.2","F40*, F41*, F93.0, F93.1, F93.2",,,
+Depression,"F32*, F33*","F32*, F33*",,,
+PTSD,F43.1,F43.1,,,
+Adjustment disorders,F43.2,F43.2,,,
+Hyperkinetic disorders,F90*,F90*,,,
+Conduct disorders,F91*,F91*,,,

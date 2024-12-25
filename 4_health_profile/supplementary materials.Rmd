@@ -1,0 +1,53 @@
+---
+title: "Supplementary materials"
+output: bookdown::pdf_document2
+toc: false
+number_sections: false
+header-includes:
+  - \usepackage{caption}
+  - \DeclareCaptionLabelFormat{nospace}{#1#2}
+  - \captionsetup[figure]{labelformat=nospace}
+  - \captionsetup[table]{labelformat=nospace}
+---
+
+```{r, include=FALSE, echo = FALSE, warning= FALSE}
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+here::i_am("4_health_profile/supplementary materials.Rmd")
+library(here)
+
+# Read in data for the tables later
+criteria <- read_csv(here("4_health_profile","output","coding.csv"))
+
+options(knitr.kable.NA = ' ')
+```
+
+Table \@ref(tab:criteria) contains the criteria used to identify mental health conditions and intellectual disability across the datasets. For the HMDS dataset we used the principal diagnosis and additional diagnoses variables which use ICD-10 coding. For the MHIS/MIND dataset we used the 'activation principal diagnosis code', which uses ICD-10 coding. For the IDEA dataset we identified conditions based on several text variables. For the WARDA-BD dataset we used diagnosis codes 1 through 4, which use ICD-9 coding. For the WARDA-CP dataset we use the 'intellect' variable which describes intellectual ability. 
+
+The following codes from the 'Any intellectual disability' category that are not part of another category are Q85.0 (Neurofibromatosis (nonmalignant)), Q85.1 (Tuberous sclerosis), Q87.4 (Marfan syndrome),Q87.14 (Prader-Willi syndrome), Q90* (Down syndrome), Q92.0 (Whole chromosome trisomy, meiotic nondisjunction), Q92.1 (Whole chromosome trisomy, mosaicism (mitotic nondisjunction)), Q92.2 (Major partial trisomy), Q92.3 (Minor partial trisomy), Q92.4 (Duplications seen only at prometaphase), Q92.5 (Duplications with other complex rearrangements), Q93.3 (Deletion of short arm of chromosome 4), Q93.4 (Deletion of short arm of chromosome 5), Q93.5 (Other deletions of part of a chromosome), Q99.2 (Fragile X chromosome).
+
+```{r criteria, echo = F}
+kable(criteria,
+      booktabs = T,
+      caption = "Criteria used to identify mental health conditions and intellectual disability",
+      align = "c",
+      linesep = ""
+) %>%
+  kable_styling(
+    latex_options = c("HOLD_position", "scale_down")
+  ) %>% 
+  column_spec(1, width = "3cm") %>% 
+  column_spec(2, width = "5cm") %>% 
+  column_spec(3, width = "5cm") %>% 
+  column_spec(4, width = "5cm") %>% 
+  column_spec(6, width = "5cm") %>% 
+  add_footnote(
+    label = "* indicates a wildcard match, meaning any condition identified with the base string is included in the classification.\nID/DD/CA is intellectual disability/developmental delay/congenital abnormalities.\nFASD is foetal alcohol spectrum disorder.\nPTSD is post-traumatic stress disorder.",
+    notation = "none"
+  )
+```
+
+```{r loveplot, echo = FALSE, fig.cap="Love plot of standardised and unstandardised mean differences of the matching variables, before and after matching"}
+include_graphics(here("4_health_profile","output","loveplot.pdf"))
+```

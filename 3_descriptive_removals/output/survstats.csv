@@ -1,0 +1,41 @@
+stat,stage,surv,upper,lower
+Overall,Notification,51.2,52.2,50.3
+Overall,Investigation,46,46.9,45
+Overall,Substantiation,28.2,29.1,27.2
+Overall,Placement,13.5,14.1,12.9
+2000-01,Notification,7.6,8.4,6.8
+2002-03,Notification,8,8.9,7.2
+2004-05,Notification,8.9,9.8,8.1
+2006-07,Notification,11.6,12.5,10.7
+2008-09,Notification,14.2,15.1,13.2
+2010-11,Notification,13.9,14.9,13
+2012-13,Notification,15.1,16.1,14.1
+2000-01,Investigation,4,4.5,3.4
+2002-03,Investigation,4.7,5.3,4.1
+2004-05,Investigation,5.7,6.4,5
+2006-07,Investigation,7.2,7.9,6.5
+2008-09,Investigation,7.7,8.4,6.9
+2010-11,Investigation,10.4,11.3,9.6
+2012-13,Investigation,12.5,13.4,11.6
+2000-01,Substantiation,2.4,2.9,2
+2002-03,Substantiation,2.9,3.4,2.4
+2004-05,Substantiation,2.6,3.1,2.2
+2006-07,Substantiation,3.6,4.2,3.1
+2008-09,Substantiation,4.2,4.7,3.6
+2010-11,Substantiation,4.4,5,3.9
+2012-13,Substantiation,5.8,6.4,5.1
+2000-01,Placement,2.3,2.7,1.8
+2002-03,Placement,2.7,3.2,2.2
+2004-05,Placement,3.2,3.7,2.6
+2006-07,Placement,3.7,4.2,3.2
+2008-09,Placement,3.5,4,3
+2010-11,Placement,3.9,4.4,3.4
+2012-13,Placement,4.3,4.8,3.7
+Born after,Notification,32.7,33.8,31.5
+Born before,Notification,6.3,6.6,6
+Born after,Investigation,29.7,31.1,28.4
+Born before,Investigation,4.3,4.5,4.1
+Born after,Substantiation,24.1,25.7,22.3
+Born before,Substantiation,2.2,2.4,2.1
+Born after,Placement,31.9,34.1,29.5
+Born before,Placement,2,2.1,1.8

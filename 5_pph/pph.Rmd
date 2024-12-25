@@ -1,0 +1,351 @@
+---
+output:   
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+bibliography: "../references.bib"
+title: "Potentially preventable hospitalisations for Aboriginal children with experience of out-of-home care: a data linkage study"
+author:
+  - Benjamin Harrap
+  - Alison Gibberd
+  - Melissa O'Donnell
+  - Koen Simons
+  - Sandra Eades
+link-citations: yes
+csl: "../vancouver-superscript.csl"
+header-includes: \makeatletter\renewcommand*{\fps@figure}{H}\makeatother
+---
+
+## Abstract
+
+### Objective {-}
+
+To compare potentially preventable hospitalisations (PPHs) for Aboriginal children according to exposure to placement in out-of-home care (OOHC) and estimate the effect of first placement in OOHC on rates of PPHs.
+
+### Methods {-}
+
+A retrospective longitudinal study of linked hospitalisation and child protection data for Aboriginal children born in Western Australia between 2000 and 2013 investigated diagnoses and compared rates of PPHs and the impact of OOHC.
+
+### Results {-}
+
+Diagnosed conditions were similar. The incidence rate of bed days for PPHs was 2.3 times higher for children ever-placed in OOHC. First placement in OOHC reduced PPH bed by days 11% (95% CI 3% - 18%) however, their rate never reached parity with never-placed children.
+
+### Conclusions {-}
+
+Children with experience of OOHC had greater rates of PPH bed days which persisted despite being lowered following first-placement in OOHC.
+
+### Implications for public health {-}
+
+Reducing rates of PPHs will require improving the capacity of and access to culturally safe primary healthcare for at-risk families whilst also addressing material conditions such as socio-economic disadvantage and inadequate housing. Policies and interventions must be Aboriginal-led and consider the specific context and needs of families and communities, in particular for those with children with experience of OOHC.
+
+## Keywords
+
+Potentially preventable hospitalisations, out-of-home care, Aboriginal children, Western Australia, data linkage
+
+## Introduction
+
+Potentially preventable hospitalisations (PPHs) are hospital admissions for a particular set of conditions, where the hospitalisation could have been prevented had there been access to timely primary care, social policy that provides adequate housing and resources, and health promotion to support populations to make behavioural changes that reduce the likelihood of health conditions developing [@anderson2012;@falster2017]. At the individual admission level it may be unclear whether they were actually preventable. However, at a population-level they are useful to assess healthcare and social support systems. In Australia, the Australian Institute of Health and Welfare and state governments regularly report rates of PPHs for a variety of subpopulations, reporting that increasingly geographic remote locations [@aihw2020d;@duckett2016] and Aboriginal and Torres Strait Islander people [@aihw2020b;@aihw2020f;@dohwa2017;@falster2016] typically experience higher rates of PPHs.
+
+While government departments in Australia [@aihw2020b;@dohwa2017;@ahmac2017] and researchers [@li2009;@guthrie2012] report rates of PPHs for both adult and child populations using an agreed set of conditions[@aihwpph], as noted in Anderson et al. [@anderson2012] many of these conditions, such as congestive cardiac failure and chronic obstructive pulmonary disease, are irrelevant for children. In their paper, the authors developed a set of conditions to identify PPHs for children and applied it to hospital admissions data in New Zealand [@craig2012]. Procter et al. [@procter2020] compare both the adult and child definitions of PPHs using Australian data, finding the child definition identified a rate more than twice as high as the adult definition, with acute bronchiolitis, acute upper respiratory tract infection excluding croup, dehydration and gastroenteritis, and asthma being responsible for the majority of this difference.  
+
+In New Zealand, Anderson et al. also identified that PPHs might be reduced for Māori children through the implementation of government policies that adhere to the Treaty of Waitangi when making resource allocation decisions [@anderson2012]. While the specifics of how New Zealand government policy interacts with the Treaty of Waitangi is unique to New Zealand, there are aspects of Australia’s history and contemporary health and social support systems that underlie the disparity in the burden of disease and rate of PPHs for Aboriginal and Torres Strait Islander (hereafter Aboriginal) people. This includes evidence that Aboriginal people experience culturally unsafe services [@familymatters2021], intergenerational trauma [@hreoc1997], and institutional racism [@tilbury2015], which are consequences of historic and ongoing colonisation [@familymatters2019;@healingfoundation2013]. The interplay of these aspects has resulted in Aboriginal people being more likely to experience higher levels of overcrowded housing and poorer socio-economic outcomes which lead to the inequitable burden of disease and higher rates of PPHs. An example of this is that even with the introduction of health checks specifically for Aboriginal people in 2006 and a large increase in usage of these checks from 2009 to 2019 [@ahmac2017;@aihw2020f], Aboriginal people still experience disparity in rates of PPHs [@aihw2020b]. 
+
+Given the over-representation of Aboriginal children in the child protection system is now a key issue in Australia’s national commitment to Closing the Gap [@ctg2020], and evidence that many families involved in child protection are also from socio-economically disadvantaged areas [@odonnell2010a;@orr2019;@segal2019], it is important that we understand more about PPHs for children with experience of child protective services. This research is part of a broader study of Indigenous Child Removals Western Australia (I-CaRe WA [@icare]) which aims to identify factors that reduce the number of Aboriginal children going into out-of-home care (OOHC) and ways to better support families at risk, children in care and kinship carers. In qualitative interviews conducted as part of this study, kinship carers spoke of difficulties in accessing appropriate primary healthcare for children in their care. Staff at Aboriginal community-controlled health organisations also reported that the funding allocated to Aboriginal child health checks was insufficient to cover the time required to address the complex health needs of children in OOHC [@moodie2024]. Our work on the I-CaRe WA study also found the prevalence of mental and neurodevelopmental health conditions was higher for Aboriginal children with experience of out-of-home care (OOHC) than Aboriginal children who were never removed [@harrap2024]. The study's qualitative findings that Aboriginal children in OOHC had increased health needs, their parents and carers had difficulty accessing primary healthcare, and primary healthcare services were under-resourced [@moodie2024], appears to put these children at greater risk of having PPHs however this has not previously been examined at a population level.
+
+Given this gap in the literature, our first aim was, for Aboriginal children born in Western Australia, to compare the rate of PPHs for Aboriginal children who were ever-placed in OOHC to Aboriginal children who were never-placed. We wanted to identify whether children with experience of OOHC had an increased rate of PPHs. Our second aim was to explore the conditions resulting in PPHs, as the mechanisms for prevention vary [@anderson2012]. Our third aim was to examine the impact that placement in OOHC had on rates of PPHs.
+
+## Methods and data
+
+### Data and cohort {-}
+
+The cohort for this study was derived from a data linkage of all Aboriginal children born in Western Australia between 2000 and 2013. Data were obtained via data linkage using probabilistic matching [@holman2008] provided by Data Linkage Services Western Australia (DLSWA). Placements in OOHC were identified using child protection data from the Western Australian Department of Communities covering 2000 to 2019. Birth and death records were obtained from the Midwives Notification System, Birth Registrations, and Death Registrations. Admissions were identified using the Hospital Morbidity Data Collection (HMDC) and Emergency Department Data Collection (EDDC), both covering the 2000 to 2019 period. Stillbirths and children who died before 29 days old were excluded.
+
+### Bed days for PPHs, hospitalisation periods, placement periods {-}
+
+PPHs were identified using primary diagnoses in the HMDC only, according to the set of conditions in Table 2 of Anderson et al. [@anderson2012] for children aged 29 days to 14 years. We restricted diagnosis to only HMDC records because diagnostic coding is completed by trained clinical coding staff, who review patient records to determine primary diagnoses according to the ICD-10-AM, whereas this is not the case for the EDDC.
+
+Both the HMDC and EDDC were used to identify hospitalisation periods. We defined a hospitalisation period to be the continuous period of time from when an individual is first admitted to an emergency department or hospital to when they are discharged due to no longer receiving medical care at one of these facilities. Hospitalisation periods potentially spanned multiple records and facilities across the EDDC and HMDC due to transfers or re-admissions. See the Supplementary Materials for details on how these periods were identified. These hospitalisation periods then formed the basis of our analyses, where we examined both the number of bed days and admissions.
+
+### Analysis methods {-}
+
+Analyses were performed using R [@r] and RStudio [@rstudio]. We used the `MatchIt` package [@matchit] to match never-placed children to ever-placed children in a 2:1 ratio. Matching was based on month-year of birth (e.g. 07-2004), 2011 remoteness area [@remotenessarea] of their mother's address at the time of their birth, and 2011 state-level index of relative socio-economic advantage and disadvantage [@seifa] (hereafter referred to as socio-economic area). Optimal pair matching [@optmatch] with the Mahalanobis distance and exact matching on month-year of birth was used, which minimises the sum of the absolute pairwise distances in the matched sample. Matching on month-year of birth ensured follow-up time was comparable for the never- and ever-placed groups and minimised the impact of changing healthcare practices on PPHs, such as the rotavirus vaccine being introduced for children in 2007 [@fathima2021]. Remoteness area and socio-economic area were matched on given that they both influence rates of PPHS and placements into OOHC [@aihwpph;@aihw2022b].
+
+We stratified our descriptive analyses by five-year age brackets (29 days to 4 years old, 5 to 9 years old, and 10 to 14 years old) consistent with reporting elsewhere [@craig2012;@aihw2020b] and one-year age increments. Hospitalisation periods that overlapped two age brackets contributed time to each age bracket accordingly. Similarly, hospitalisation periods that overlapped the first placement in OOHC contributed to pre- and post-placement time accordingly. Rates of bed days for PPHs were calculated using the `epi2x2` function from the `epiR` package [@epir] and were based on total bed days spent in a hospitalisation period and total time at risk. Time at risk was calculated as the total observed time in a given age bracket, with follow-up time being censored at the end of 2019, or on a child's 15th birthday or date of death if these occurred prior to the end of 2019.
+
+The frequency of PPH conditions was based on the primary diagnosis of each individual HMDC record within a hospitalisation period. For example, a hospitalisation period containing two records where these records' primary diagnoses were acute bronchiolitis and asthma would contribute to the count of both acute bronchiolitis and asthma, despite being considered one hospitalisation period.
+
+To estimate the average causal effect of placement in OOHC on the rate of PPH bed days we used mixed effects regression with random intercepts at the individual level and follow-up time as an offset, using the `glmmTMB` package [@glmmtmb]. We included ever or never-placed status, an indicator for pre/post first placement in care, an interaction between these two variables, age, remoteness area, and socio-economic area in the model. By matching and assigning the same date of first placement in OOHC to never-placed children as the ever-placed child they were matched to, we treat never-placed children as a counterfactual control group. Although age, remoteness area, and socio-economic status were matching variables, they were also included in the model for potential gains in model accuracy and to estimate marginal rates of hospitalisations across different levels of these variables. Since PPH conditions have differing etiologies, we also ran individual regression models to assess the relationship between placement in OOHC and bed days for respiratory conditions (asthma and acute upper respiratory tract infections), skin infections, dental issues, pneumonia, gastroenteritis, and otitis media.
+
+Age and socio-economic area were assessed for their optimal functional forms as multivariable fractional polynomials via the `mfp2` package [@mfp2]. Poisson or negative binomial distributions with a log link were used, depending on the presence of over-dispersion. Ethical approval for the I-CaRe WA project was given by the Western Australian Aboriginal Human Ethics Committee (943) and the Department of Health Human Research Ethics Committee (RGS 3496).
+
+## Results
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(janitor)
+library(knitr)
+library(kableExtra)
+here::i_am("5_pph/pph.Rmd")
+library(here)
+
+stats <- read_csv(here("5_pph", "data", "single_stats.csv"))
+table1 <- read_csv(here("5_pph", "data", "table_1.csv")) |> mutate(across(ends_with("placed"),  ~ replace_na(., " "))) |> select(stat, never_placed, ever_placed) |>
+  mutate(stat = case_when(
+    stat == "IRSAD at birth" ~ "socio-economic area at birth",
+    stat == "1st quintile" ~ "1st quintile (most disadvantaged)",
+    stat == "5th quintile" ~ "5th quintile (most advantaged)",
+    stat == "All hospital periods" ~ "Number of hospital periods for any condition",
+    stat == "All PPH periods" ~ "Number of hospital periods for PPH conditions",
+    stat == "At least one period" ~ "Number of children with at least one hospital period",
+    stat == "Any period" ~ "For any condition",
+    stat == "PPH period" ~ "For PPH condition",
+    TRUE ~ stat))
+conditions <- read_csv(here("5_pph","data","conditions_top10.csv"))
+h00 <- " "
+h04 <- paste0("Ages 0-4\nN = 10,541")
+h59 <- paste0("Ages 5-9\nN = 3,016")
+h1014 <- paste0("Ages 10-14\nN = 960")
+condh <- c(h00 = 1,h04 = 2,h59 = 2,h1014 = 2)
+names(condh) <- c(" ", h04, h59, h1014)
+
+
+a1 <- read_csv(here("5_pph","data","analysis_1.csv")) |> 
+  pivot_wider(
+    names_from = exposure,
+    values_from = c(hospital_days, days_at_risk, inc_rate, irr)
+  ) |> 
+  select(
+    age_group,
+    ends_with("Never placed"),
+    ends_with("Ever placed"),
+    ) |> 
+  select(-`irr_Never placed`)
+
+a1_y1_0 <- str_extract(a1$`inc_rate_Never placed`[a1$age_group=="0-1"],"\\d.\\d+")
+a1_y1_1 <- str_extract(a1$`inc_rate_Ever placed`[a1$age_group=="0-1"],"\\d.\\d+")
+
+a2 <- read_csv(here("5_pph","data","analysis_2.csv")) |> 
+  pivot_wider(
+    names_from = exposure,
+    values_from = c(hospital_days, days_at_risk, inc_rate, irr)
+  ) |> 
+  select(
+    age_group,
+    ends_with("Pre-placement"),
+    ends_with("Post-placement"),
+    ) |> 
+  select(-`irr_Pre-placement`) |> 
+  filter(age_group != "All ages")
+
+hosp_ratio <- table1 |>
+  filter(stat == "All ages") |>
+  mutate(ratio =
+           round((
+             as.numeric(str_remove(ever_placed, ",")) /
+               as.numeric(str_remove(never_placed, ","))
+           ) * 100, digits = 1))
+all_ratio <- hosp_ratio |> slice_head(n=1) |> select(ratio) |> as.double()
+pph_ratio <- hosp_ratio |> slice_tail(n=1) |> select(ratio) |> as.double()
+pph_n <- table1 |> filter(stat == "All ages") |> slice_tail(n = 1)
+pphpct <- table1 |> filter(stat == "For PPH condition") |> select(ever_placed) |> mutate(ever_placed = str_extract(ever_placed,"\\d\\d.\\d%")) |> as.character()
+nevern <- table1$never_placed[table1$stat == "N"] 
+evern <- table1$ever_placed[table1$stat == "N"] 
+
+statfn <- function(name){stats$value[stats$stat==name]}
+```
+
+After excluding `r statfn("died_less_28")` children who died in the first 28 days of life and `r statfn("missing_match_vars")` who had missing data on the matching variables, a total of `r statfn("cohort_matched_from")` children were included in the matching process. There were `r evern` ever-placed children who were matched with `r nevern` never-placed children. For remoteness area, `r statfn("Same RA")` of never-placed children shared the same value as their ever-placed matched counterpart, with `r statfn("RA 1 away")` being 1 rating away. For socio-economic area, `r statfn("Same SES")` shared the same value, `r statfn("SES 1 away")` were within one decile.
+
+Table \@ref(tab:table1) presents demographic and hospital admission characteristics for the two groups. Despite being only one third of the sample, ever-placed children had `r all_ratio`% ($29,369/43,962$) of the hospitalisation periods and `r pph_ratio`% ($6,491/7,630$) of the PPH periods. Almost all children in both cohorts had at least one hospital record, while half of never-placed children (48.9%) had at least one PPH compared to `r pphpct` of ever-placed children. The mean and median number of bed days for PPHs were 4.42 and 3 for ever-placed children respectively, for never-placed children they were 3.28 and 2. The mean and median number of admissions for PPHs were 2.74 and 2 for ever-placed children, for never-placed children it was 2.1 and 1.
+
+Table \@ref(tab:analysis1) presents the incidence rate of hospital bed days per 1,000 days at risk, and incidence rate ratios for each age bracket and overall, according to ever- or never-placed group. For both groups, the incidence rate was highest for the 0-4 age group, with the rate declining as the children aged. Overall, the rate of PPH bed days for ever-placed children was 2.3 times higher compared to never-placed children, and the rate of PPH admissions was 1.7 times higher (see Supplementary Materials). At no age were the incidence rates near parity between ever- and never-placed children. The age at which the rate of PPH bed days was highest was during infancy at `r a1_y1_0` per 1,000 days at risk for never-placed children and more than twice as high at `r a1_y1_1` per 1,000 days at risk for ever-placed children.
+
+Table \@ref(tab:conditions) highlights the ten most common PPH conditions for ever and never-placed children in each age bracket (see the Supplementary Materials for all PPH conditions). The mix of conditions was very similar for both ever- and never-placed children. For the age 0-4 period, acute bronchiolitis was the most commonly identified condition, accounting for almost 20% of identified conditions for both never and ever-placed children. Respiratory conditions were common across all ages, with acute upper respiratory tract infection (excluding croup) and asthma accounting for between 10 to 15% of conditions for both ever and never-placed children. Dental conditions were also common across all ages but appeared most frequently in the 5-9 age group, accounting for around a quarter of diagnoses. Similarly, skin infections were common across all age brackets, but increased as a proportion of conditions with age and accounted for at least a quarter of the conditions identified in the 10-14 age bracket. Gastroenteritis was much more common for ages 0-4 at around 17% of diagnoses.
+
+Table \@ref(tab:analysis2) presents the incidence rates and rate ratios for PPH bed days before and after ever-placed children's first placement in OOHC. Consistent with Table \@ref(tab:analysis1), the incidence rate of PPH bed days reduced with age, being highest in the first year of life and ages 0-4 generally. 
+
+Our modelling of the effect of first placement in OOHC on the rate of bed days for PPHs for ever-placed children provided an estimated incidence rate ratio of `r statfn("interaction")`, suggesting that on average the rate of PPH bed days reduced by 11% (95% CI 3% - 18%) in the period following a child's first placement in OOHC, with a reduction ranging from 3% to 18% also being plausible. Examining the marginal rate of PPH bed days per 1,000 days at risk for children aged 1 to 14 and across remoteness areas (Figure \@ref(fig:margins)), found that the estimated difference between before and after first placement in OOHC was greatest in the first year of life. For all children, increasing age was the largest driver for reductions in the rate of PPH bed days, with the rate falling most rapidly from ages one to five. Increasing remoteness was associated with an increase in the rate of bed days for never- and ever-placed children.
+
+Results of the regression modelling for specific health conditions suggested that placement had a differential impact on the rate of PPH bed days according to the type of condition. The incidence rate ratio estimates for the conditions assessed were:
+
+- Asthma and acute upper respiratory tract infections: `r statfn("respiratory conditions")`
+- Dental conditions: `r statfn("dental conditions")`
+- Gastroenteritis: `r statfn("gastroenteritis")`
+- Otitis media: `r statfn("otitis media")`
+- Pneumonia: `r statfn("pneumonia")`
+- Skin infection: `r statfn("skin infections")`
+
+The estimated marginal rates of bed days for each conditions across age per 100,000 days at risk are presented in Figure \@ref(fig:diagnoses). Point estimates for skin infections, respiratory conditions, gastroenteritis, and pneumonia suggest reductions in the rates of these conditions post-placement, however the confidence intervals for the effect of placement in OOHC on rates of bed days for respiratory conditions, gastroenteritis, and pneumonia were compatible with no effect or a small increase. For dental conditions and otitis media, the estimates suggested that placement in OOHC increased the rate of PPH bed days.
+
+In both Figure \@ref(fig:margins) and Figure \@ref(fig:diagnoses), the marginal rates pre and post-placement are displayed for never-placed children despite them not actually being placed, to allow for a comparison of marginal rates.
+
+## Discussion
+
+Our study found that across all ages, Aboriginal children born in Western Australia who were ever-placed in OOHC had higher rates of PPHs than Aboriginal children who were not placed in OOHC. Rates of PPH bed days were approximately two times higher for ever-placed children and increased with increasing remoteness, consistent with existing research [@aihw2020d;@gnanamanickam2020]. The highest rate of PPHs generally occurred during the first year of life for all children, similar to findings from South Australia [@procter2020;@gnanamanickam2020] and New South Wales [@falster2016]. That the highest rates of placement in OOHC also occur in the first year of life [@harrap2023] highlights the need for wrap-around services for Aboriginal children and their families at risk of child protection involvement to help prevent children being removed and enable their families to access primary healthcare.
+
+As a proportion of all PPH conditions observed for ever- and never-placed children, the distribution of conditions was almost identical, indicating that the types of conditions resulting in PPHs for Aboriginal children born in Western Australia are characteristically similar regardless of CPS involvement; ever-placed children simply had more PPHs. The most common conditions we observed were largely the same as seen in data-linkage studies, from South Australia [@procter2020] and New South Wales [@falster2016]. That dental, respiratory, dermatological, and hearing problems were among the most common conditions is also consistent with reviews of specialist referrals for Aboriginal children undergoing health screening upon being placed in OOHC in Sydney [@raman2017] and Melbourne [@shmerling2020].
+
+When estimating the effect of placement in OOHC on the most common PPH conditions, our estimates of the marginal rates of bed days included no effect as a plausible outcome but were mostly consistent with placement reducing rates of PPH bed days for skin infections, respiratory conditions, gastroenteritis, and pneumonia. The finding that the rate of PPH bed days for dental conditions and otitis media increased post-placement was unexpected. One explanation is that dental conditions developed during the pre-placement period but were only identified during health checks upon entry into OOHC. That the estimates of marginal rates post-placement for never-placed children are different to their rates pre-placement most likely the effect of age, but there may be other underlying reason we have not identified.
+
+When considering the mechanisms for prevention suggested by Anderson et al. [@anderson2012], most conditions were preventable through early access to primary care. Only dental conditions, gastroenteritis, and skin infections were considered preventable through health promotion. However, these conditions constituted 30-50% of conditions across the three age brackets, suggesting health promotion can play an important role in policy design to reduce rates of these PPHs. Underlying this, however, is our finding that the rate of PPHs increased with increasing socio-economic disadvantage. If the household environment and access to timely primary healthcare are dependent on financial capacity, such as paying for housing with more bedrooms to avoid overcrowding or visiting general practitioners and dentists that charge gap fees to access them earlier, the influence of health promotion will be limited for the most socio-economically disadvantaged families while financial barriers exist. Screening for healthcare needs, referrals to specialists, changing household environment, and no longer being maltreated all contribute to lower rates of PPHs. What is important to realise is that these can all occur without having to remove a child – through early intervention and support services for families.
+
+While we observed a decrease in the rates of PPHs for children following their first placement in OOHC, their rate of PPHs never reached parity with never-placed children despite matching on remoteness area and socio-economic area at birth. There could be several reasons for this. Chronic or long-developing health conditions, such as asthma or dental caries, might have been developed during the pre-placement period as a consequence of adverse social circumstances, maltreatment, or neglect, which would make them more likely to appear in hospital data since the underlying prevalence of these conditions is higher. Another explanation could be that upon being reunified with their parents, children return to housing conditions or environments that put them at greater risk of having a PPH, such as smoking in the home or overcrowded housing, although the majority of children do not get reunified [@lima2024].
+
+A key barrier and likely factor related to ever-placed children being at greater risk even after placement in OOHC is when the geographic area in which children live has a lack of accessible healthcare services or long delays in referral times. Aboriginal children are placed in OOHC according to the Aboriginal and Torres Strait Islander Child Placement Principle [@ccsa2004], which prioritises placing children with family or kin to maintain a connection to kinship, community, and Country. Access to healthcare services is therefore a priority issue across regions and for children in OOHC.
+
+The availability of appointments and ability of parents or carers to access them is indeed a critical issue, with 30% of Aboriginal people in WA stating they had not sought healthcare despite needing to, with transport, distance, and wait times being common reasons [@aihw2020f]. The First Nations-specific health checks [@ahmac2017] presumes a medical professional is available to provide a high-quality service, meaning there is a need to ensure the capacity of the health care services, in particular in remote areas where the highest rates of PPHs are occurring. Increasing the number of Aboriginal medical graduates will be especially important to improve the delivery of culturally safe services, whether in an Aboriginal medical service or elsewhere. There is an ongoing pilot of a health navigator program in WA for children in OOHC. For Aboriginal children, this program seeks improve coordination between services and create a trauma-informed, culturally safe environment informed by Aboriginal voices [@hnppslides;@hnpp2022]. This may provide a framework for broader implementation, creating services that recognise culture as a protective factor and treat individuals in the holistic context of their family, kinship, and community.
+
+Cost of health services is still an important factor. Given that PPHs are more common for people with lower socio-economic backgrounds [@aihw2020d] and the decline in bulk-billing medical clinics in Australia generally [@evershed2024], increasing out-of-pocket costs will continue to play a factor in the decision to visit emergency departments over primary care, with 43% of Indigenous people in Western Australia reporting cost as the main reason for not seeking healthcare when it was needed [@aihw2020f]. Given the average cost of a hospital bed day in Western Australia was $2,370 in 2022 [@oag2022], any investment by state or federal government targeted at improving access to primary healthcare will, in addition to improving the health of children generally, likely be offset by a reduction in admissions[@dalton2018].
+  
+### Limitations {-}
+  
+Children are identified as ever-placed if their first contact with CPS occurred between 2000 and July 2015. Those whose first contact was after July 2015 would be incorrectly classified as never-placed. We estimate this to be approximately two percent of the cohort, given the rate of placement for children after the age of four in our previous research [@harrap2023]. Given the percent misclassified is likely small, and the misclassification will make the groups more comparable such that any estimates would be attenuated, we do not believe this has a major impact on our findings.
+
+### Future research {-}
+
+Based on our directed acyclic graph we identified several variables on the causal pathway from placement in OOHC to rates of PPH bed days that could be biasing our estimates. While unmeasured confounding is a fundamental problem of causal inference using observational data, including additional datasets that have information on these confounding variables in a future data linkage may reduce any bias in the estimates.
+
+As a measure, PPHs, even when designed for use in younger populations, are limited in that the actual hospitalisations may not have been preventable. While policy recommendations to improve access to primary care make sense at face value, finding out the reasons why parents or carers of Aboriginal children with child protection involvement are attending emergency departments and hospitals for PPHs may yield information that makes policy design and interventions more effective.
+
+### Conclusion {-}
+
+While the current strain on the healthcare system affects all Australians, Aboriginal children and in particular Aboriginal children who are placed in out-of-home care are particularly impacted. Our findings that the types of conditions experienced by these children does not differ from Aboriginal children more broadly, and that rates of potentially preventable hospitalisations after intervention by child protective services do not reach parity with Aboriginal children who are never-placed in out-of-home care, highlights that there is additional need for support for parents and carers of these children. Addressing these needs will require the support and funding of Aboriginal-led solutions as Aboriginal communities are best positioned to identify and address their needs.
+
+## Acknowledgements
+
+The primary author, Benjamin Harrap, is not an Aboriginal or Torres Strait Islander person. The I-CaRe WA study is an Aboriginal-led study which engages Aboriginal voices through its leadership and through study advisory, policy, and community reference groups. The authors would like to thank the members of these groups for their feedback and contributions to the formation of this article.
+
+The authors wish to thank the staff at DLSWA and the custodians of the Midwives Notification System, Birth Registrations, Death Registrations, Hospital Morbidity Data Collection, Emergency Department Data Collection, and child protection datasets. The information presented does not reflect the views of DLSWA or any of the data custodians.
+
+## Funding
+
+The project was funded by NHMRC Project Grant 1162968.
+
+## Tables and figures
+
+```{r table1, echo = FALSE}
+kable(
+  table1,
+  booktabs = T,
+  caption = "Demographic and other characteristics for the matched cohort of never- and ever-placed children",
+  align = "c",
+  linesep = "",
+  col.names = c(
+    " ",
+    "Never-placed",
+    "Ever-placed"
+  )
+) |> 
+  kable_styling(latex_options = c("scale_down","HOLD_position")) |> 
+  add_footnote(label = "All hospital periods includes both emergency department and hospital records.")
+```
+
+\newpage
+
+```{r analysis1, echo = FALSE}
+kable(
+  a1,
+  booktabs = T,
+  caption = "Rates of PPH bed days per 1,000 person-days at risk and incidence rate ratios, by placement group and age, for Aboriginal children born in Western Australia between 2000 and 2013.",
+  align = "c",
+  linesep = c("","","","","","\\addlinespace"), 
+  format.args = list(big.mark = ","),
+  col.names = c(
+    "Age group",
+    "PPH days",
+    "Days at risk",
+    "Incidence rate (95% CI)",
+    "PPH days",
+    "Days at risk",
+    "Incidence rate (95% CI)",
+    "Incidence rate ratio (95% CI)"
+  )
+) |>
+  add_header_above(c(
+    " " = 1,
+    "Never-placed children" = 3,
+    "Ever-placed children" = 3,
+    " " = 1
+  )) |> 
+  kable_styling(latex_options = c("scale_down","HOLD_position")) |> 
+  add_footnote(label = c("95% CI means 95% confidence interval","The increased incidence rate for ever-placed children age 14-15 was primarily driven by a small number of hospitalisation periods accounting for approximately 50% of PPH days")) |> 
+  row_spec(1,bold=T) |> 
+  row_spec(7,bold=T) |> 
+  row_spec(13,bold=T) |> 
+  row_spec(19,bold=T) |> 
+  landscape()
+```
+
+\newpage
+
+```{r conditions, echo = FALSE}
+options(knitr.kable.NA = "")
+kable(
+  conditions,
+  booktabs = T,
+  caption = "Frequency of the ten most common potentially preventable hospitalisation diagnoses within hospitalisation periods, by 5-year age groups and placement group",
+  align = "c",
+  linesep = "", 
+  col.names = c(
+    "Diagnosis",
+    "Never-placed",
+    "Ever-placed",
+    "Never-placed",
+    "Ever-placed",
+    "Never-placed",
+    "Ever-placed"
+  )
+) |>
+  kable_styling(latex_options = c("scale_down","HOLD_position")) |> 
+  add_header_above(condh) |>
+  add_footnote(label = c("'N's represent number of hospitalisation periods for a given age group.","Percentages reported are based on the total count of PPH conditions within each age period")) |> 
+  landscape()
+```
+
+\newpage
+
+```{r analysis2, echo = FALSE,}
+kable(
+  a2,
+  booktabs = T,
+  caption = "Rates of PPHs per 1,000 person-days and incidence rate ratios for pre- and post-first placement in out-of-home care by age group, for Aboriginal children born in Western Australia between 2000 and 2013.",
+  align = "c",
+  linesep = c("","","","","","\\addlinespace"), 
+  format.args = list(big.mark = ","),
+  col.names = c(
+    "Age group",
+    "PPH days",
+    "Days at risk",
+    "Incidence rate",
+    "PPH days",
+    "Days at risk",
+    "Incidence rate",
+    "Incidence rate ratio"
+  )
+) |>
+  kable_styling(latex_options = c("scale_down","HOLD_position")) |> 
+  add_header_above(c(
+    " " = 1,
+    "Pre-first placement" = 3,
+    "Post-first placement" = 3,
+    " " = 1
+  )) |>
+  add_footnote(label = "Incidence rates and incidence rate ratios and their corresponding confidence intervals are presented as 'Estimate (95% Confidence Interval)'") |> 
+  row_spec(1,bold=T) |> 
+  row_spec(7,bold=T) |> 
+  row_spec(13,bold=T) |> 
+  row_spec(19,bold=T) |> 
+  landscape()
+```
+
+\newpage
+
+```{r margins, echo = F, out.extra='angle=90', out.width = "120%", fig.cap = "Estimates and 95% confidence intervals of the marginal rate of PPH bed days from ages 0 to 14 for ever- and never-placed Aboriginal children pre- and post-first placement, for the most socio-economically disadvantaged decile", fig.pos="H"}
+include_graphics(here("5_pph","data","margins_ra.png"))
+```
+
+\newpage
+
+```{r diagnoses, echo = F, out.extra='angle=90', out.width = "120%", fig.cap = "Estimates and 95% confidence intervals of the marginal rate of PPH bed days from ages 0 to 14 for ever- and never-placed Aboriginal children pre- and post-first placement, by diagnosed condition, for major city areas and most disadvantaged IRSAD decile", fig.pos="H"}
+include_graphics(here("5_pph","data","margins_diag.png"))
+```

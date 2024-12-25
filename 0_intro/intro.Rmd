@@ -1,0 +1,89 @@
+---
+output: word_document
+---
+
+## Description of work {-}
+
+<!-- (i) a description of work towards the thesis that was carried out in collaboration with others, indicating the nature and proportion of the contribution of others and in general terms the portions of the work which the student claims as original; -->
+
+Chapters 1, 2, and 6 were solely my own work. Chapters 3, 4, and 5, contain research articles completed in collaboration with others. Their contributions are outlined later in this section.
+
+<!-- (ii) a description of work towards the thesis that has been submitted for other qualifications; -->
+
+No work contained within this thesis has been submitted for other qualifications.
+
+<!-- (iii) a description of work towards the thesis that was carried out prior to enrolment in the degree; -->
+
+No work contained within this thesis was carried out prior to enrolment in the degree.
+
+<!-- (iv) whether any third party editorial assistance was provided in preparation of the thesis and whether the persons providing this assistance are knowledgeable in the academic discipline of the thesis; -->
+
+No third party editorial assistance was provided in the preparation of this thesis, however the following contributions should be acknowledged:
+
+- My supervisors for their provision of feedback on the works contained within.
+- Co-authors of research articles from chapters 3, 4, and 5, who provided feedback on the drafted manuscripts responses to reviewers.
+- Reviewers of research articles from chapters 3, 4, and 5, whose feedback helped strengthen the articles.
+
+Signed Benjamin Harrap on the 17th of June 2024,
+
+\newpage
+
+<!-- (v) the contributions of all persons involved in any multi-authored publications or articles in preparation included in the thesis; -->
+
+The research articles contained in chapters 3, 4, and 5, were completed in majority by myself, which included identifying the specific research questions and hypotheses, all data cleaning and manipulation, all data analysis and visualisation, and drafting each research article. The contributions of persons involved in the research articles are outlined below:
+
+- Sandra Eades was principal investigator of the Indigenous Child Removals Western Australia (I-CaRe WA) study Sandra contributed to the generation of the research questions of the study. Sandra also provided feedback on drafted manuscripts.
+- Alison Gibberd coordinated I-CaRe WA and was one of my supervisors and contributed to the research questions of the study. She provided feedback on the drafted manuscripts and responses to reviewers in chapters 3, 4, and 5.
+- Melissa O'Donnell was a chief investigator of the I-CaRe WA and one of my supervisors and contributed to the research questions of the study. She provided feedback on the drafted manuscripts and responses to reviewers in chapters 3, 4, and 5.
+- Koen Simons was a chief investigator of the I-CaRe WA and one of my supervisors and contributed to the research questions of the study. He provided feedback on the drafted manuscripts and responses to reviewers in chapters 3, 4, and 5.
+- Bridgette McNamara was a chief investigator of the I-CaRe WA and contributed to the research questions of the study, and was one of my supervisors for a period of time. She provided feedback on the drafted manuscripts and responses to reviewers in chapters 3 and 4.
+- Jocelyn Jones was a chief investigator of the I-CaRe WA study and the qualitative research she was involved in helped direct the research questions I addressed in this thesis. Jocelyn also provided feedback on the drafted manuscript and responses to reviewers in chapter 4.
+- Richard Chenhall was a chief investigator of the I-CaRe WA study and the qualitative research he was involved in helped direct the research questions I addressed in this thesis. Richard also provided feedback on the drafted manuscript and responses to reviewers in chapter 4.
+- Kathleen Falster was an associate investigator on the I-CaRe WA project and provided feedback on the drafted manuscript and responses to reviewers in chapter 3.
+- Emily Banks was an associate investigator on the I-CaRe WA project and provided feedback on the drafted manuscript and responses to reviewers in chapter 3.
+- Fernando Lima contributed to conversations on the methodological directions taken in chapter 3.
+- Daniel MacAullay was an associate investigator on the I-CaRe WA project and contributed to the generation of the research questions of the study and provided feedback on the drafted manuscript in chapter 3.
+
+<!-- (vi) the publication status of all chapters presented in article format using the descriptors below; -->
+
+<!--     Unpublished material not submitted for publication -->
+<!--     Submitted for publication to [publication name] on[date] -->
+<!--     In revision following peer review by [publication name] -->
+<!--     Accepted for publication by [publication name] on[date] -->
+<!--     Published by [publication name] on[date] -->
+    
+The publication status of each chapter is as follows:
+
+- Chapter 1 - Unpublished material not submitted for publication.
+- Chapter 2 - Unpublished material not submitted for publication.
+- Chapter 3 - Published by Child Abuse \& Neglect on 21 June 2023.
+- Chapter 4 - Published by the Australian and New Zealand Journal of Public Health on 24 September 2024.
+- Chapter 5 - Submitted for publication to Australian and New Zealand Journal of Public Health on 14 June 2024.
+- Chapters 6, 7, and 8 - Unpublished material not submitted for publication.
+
+Note that chapters 3, 4, and 5 were not submitted in their entirety for publication, each chapter has a brief introduction and a 'further commentary' section with additional information and commentary that was not submitted for publication.
+
+<!-- (vii) an acknowledgement of all sources of funding, including grant identification numbers where applicable and Australian Government Research Training Program Scholarships, including fee offset scholarships. -->
+
+Sources of funding:
+
+- The I-CaRe WA study, from which my scholarship was provided, was funded by NHMRC Project Grant 1162968.
+- Australian Government Research Training Program Scholarship fee offset.
+
+## Acknowledgements {-}
+
+I would like to acknowledge that given my position as a non-Indigenous person, the work undertaken in this thesis would not have been appropriate nor possible without the many and varied Aboriginal and Torres Strait Islander perspectives provided by investigators, collaborators, members of the reference groups, and other interested individuals.
+
+I wish to thank the staff at Data Linkage Services Western Australia and the custodians of the Birth registrations, Midwives Notification System, Death registrations, Child Protection and Family Support Data, Hospital Morbidity Database Collection, Emergency Department Database Collection, WA Register of Developmental Anomalies - Birth defects, WA Register of Developmental Anomalies - Cerebral Palsy, Intellectual Disability Exploring Answers, and Mental Health Information System. 
+
+On a personal level, I would like to thank my supervisors for being supportive throughout my PhD, which includes Dr Bridgette McNamara although she stepped down part-way through my thesis. I would like to thank my partner, Kelsie, for her support and understanding throughout the ups and downs of the last four years.
+
+Finally, I acknowledge the Wadawurrung and Dja Dja Wurrung peoples as the traditional owners of the land where I lived and worked for the majority of my time spent on this PhD. I am grateful for the opportunity to live on their land and I pay my respects to their elders, past, present, and emerging. Sovereignty was never ceded by the First Nations peoples of Australia.
+
+## Positionality {-}
+
+Drawing on guidance from @walter2013 I describe my research standpoint here, as it is important to frame my PhD research in the context of who I am.
+
+I am an Anglo-Australian, non-binary person. I grew up in the rural south-west of the United Kingdom in a middle-class household, moving to Australia after completing my secondary education. My university education was through the University of Western Australia and the University of Melbourne, and I worked in various departments of the University of Melbourne as a research assistant in the few years prior to and throughout most of this PhD research. The majority of my socialisation and lived experience was as a man, which has shaped many facets of who I am and the privilege I experience. Throughout my PhD I reflected on how my socialisation shaped my scientific and broader worldview, but also how cultural contexts shape the data-collection decisions made by the agencies which provided the data on which this research is based.
+
+Aboriginal and Torres Strait Islander people must be the leaders of research that is about them. In approaching this PhD, I made efforts to ensure that the directions my research took were guided by the conversations with and opinions of Aboriginal and Torres Strait Islander investigators on the broader I-CaRe WA study team, findings from the qualitative research conducted by other researchers on the I-CaRe WA study (see for example @moodie2024), and the I-CaRe WA community advisory group. Throughout my work, I attempted to write in a way which does not perpetuate a deficit narrative about Aboriginal and Torres Strait Islander people. I was not formally trained in how to write academically; my writing style evolved from developing a mental model of how to write academically, which continually develops with every academic paper I read. The majority of the papers I read had some level of deficit narrative in them, which I tried to be mindful of and not replicate in my own writing. Even if these papers were not explicitly framing First Nations people as 'the problem', as opposed to colonisation, their focus on negative outcomes often contributes to a deficit narrative. While the majority of my PhD work focuses on outcomes that would be considered negative, I attempt to avoid a deficit narrative by contextualising findings in the broader historical and contemporary colonial structures that create the conditions which result in these negative outcomes.

@@ -1,0 +1,295 @@
+---
+bibliography: "../references.bib"
+link-citations: yes
+csl: "../harvard-the-university-of-melbourne.csl"
+output: pdf_document
+---
+
+```{r, include=FALSE}
+library(here)
+here::i_am("2_data/Methodology.Rmd")
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+```
+
+## Study design
+
+My research was part of a broader study titled 'Indigenous Child Removals WA Study' (I-CaRe WA, @icare). The I-CaRe WA study is an Aboriginal-led mixed-methods study with five aims:
+
+1. To examine contemporary trends, patterns and characteristics of WA Aboriginal children born between 2000-2013 entering the child protection system.
+2. To identify the intergenerational demographic, social and health predictors of out-of-home care among children, their parents and grandparents.
+3. To describe the health of children after entering out-of-home care compared to other groups of children.
+4. To explore the views and narratives from Aboriginal kinship carers about positive and negative experiences of providing out-of-home care to Aboriginal children and their perceptions on how they can be better supported.
+5. To explore the views and narratives from Aboriginal primary healthcare staff about how services can be strengthened to support families at risk of having their children removed, to increase kinship carer arrangements and to better support kinship carers.
+
+The latter two aims formed the basis of the qualitative research, which involved interviewing kinship and other carers of Aboriginal children in out-of-home care in WA and staff at Aboriginal medical services across the entire state. The first three aims were the focus of the study's quantitative analysis to which my PhD research contributes. 
+
+## Cohort
+
+The data for the quantitative aims came from a data linkage for all 34,127 Aboriginal and Torres Strait Islander children born in WA between 2000 and 2013 inclusive, who constituted the primary cohort for the study. Family relationships were also provided and linked data were available for the cohort, their siblings born outside of the 2000 to 2013 period, and their parents and grandparents. All analyses in this thesis are based on live-born children so after excluding 418 recorded stillbirths from the total cohort of 34,127, there were 33,709 children remaining.
+
+## Stakeholder and community consultation
+
+Throughout the I-CaRe WA study there has been regular engagement with a community advisory group consisting of kinship carers of Aboriginal children and staff from Aboriginal community controlled organisations. We also engaged with a policy advisory group, which included staff from the Department of Communities, who operate the child protection system in WA and provided the child protection data, and representatives from peak bodies such as the Secretariat of National Aboriginal and Islander Child Care.
+
+For both of these groups we ran regular workshops where we discussed our findings and future directions for the project. One of the difficulties with large linked administrative datasets is that there are an enormous number of variables available and an order of magnitude more analyses that could be performed. These discussions with the community and policy reference groups were vital to guiding the direction of my research to answer questions that were both important to the community, relevant for policy, and provided new information.
+
+## Data linkage
+
+The data used for my thesis come from a data linkage provided by Data Linkage Services Western Australian (DLSWA). DLSWA is a part of the WA Department of Health and maintains the Western Australian Data Linkage System [@holman2008]. The data linkage system utilizes the separation principle to protect privacy, meaning there are two sets of databases, one demographic database containing all identifying information necessary to perform linkages, and a separate links database where the linkage keys identifying individuals are stored, ready to be extracted for each requested linkage [@eitelhuber2018]. 
+
+Due to the fact that Western Australia does not have a population-wide personal identifier, DLSWA rely on probabilistic matching via complex field-matching algorithms to determine whether two records belong to the same individual. These algorithms match on common fields such as surname, date of birth, and address. Each comparison is assigned a score to indicate the similarity of the records, which then informs an overall matching score to indicate how likely it is that the records all belong to the same individual. 
+
+To review the matching quality, DLSWA uses a threshold criteria. When two records have a sufficiently high probability of being for the same person, they are automatically accepted. When the probability is below a level, links are not accepted. When the probability is between these two thresholds the records are sent for clerical/human review, which is responsible for approximately 5% of links created [@eitelhuber2016]. The error-rate of their current linkage practice is purportedly around 2-3% of reviewed links [@eitelhuber2016].
+
+### Indigenous Status Flag {-}
+
+The Indigenous status of the cohort was identified in two steps. DLSWA completed the first step, determining their Indigenous Status Flag. This process involves the comparison of Indigenous status across the following datasets:
+
+- Birth records
+- Midwives Notification System
+- Hospital Admissions Data
+- Emergency Admissions Data
+- Death Records
+
+DLSWA applies a method called the multi-stage median, described in @christensen2014. This method considers non-missing Indigenous status agreement across the five data sources to arrive at a final decision on Indigenous status. For example, in birth records, if either of a child's parents are identified as Indigenous, the child will be identified as Indigenous via the birth record. The algorithm also takes into account that an individual may have many records in the one dataset, for example multiple hospital admissions.
+
+The second step was completed by our research team and incorporated the Indigenous Status Flag for each child's parents and grandparents, as this has been demonstrated to be more inclusive (see Method B outlined in @mcnamara2020). If any of these individuals were Aboriginal or Torres Strait Islander, the child was also classified as Aboriginal or Torres Strait Islander. Compared to the Indigenous status flag, which identified 27,710 children, the incorporation of parental and grandparental Indigenous status resulted in a cohort of approximately 34,127, an increase of 6,417 children.
+
+These additional children tended to be born full-term (91.5%) and have a healthy birthweight (92.7%) compared to children identified through their Indigenous Status Flag (84.9% and 85.6% respectively). The additional children were also less likely to be born to mothers living in more socioeconomically disadvantaged areas, with 16.1% in the most disadvantaged decile compared to 36.1% for children identified through their Indigenous Status Flag.
+
+## Data sources
+
+The following datasets used in this thesis were:
+
+- Midwives Notification System
+- Child Protection and Family Support Data
+- Birth registrations
+- Death registrations
+- Hospital Morbidity Database Collection
+- Emergency Department Database Collection
+- WA Register of Developmental Anomalies - Birth defects
+- WA Register of Developmental Anomalies - Cerebral Palsy
+- Intellectual Disability Exploring Answers
+- Mental Health Information System
+
+Information on each dataset and relevant data are provided below. The descriptions of the datasets pertain to the data provided for this study, not to the broader datasets held by DLSWA. As such, some of the details may differ from information published by DLSWA, such as the date range.
+
+### Midwives Notification System {-}
+
+- Custodian: WA Department of Health
+- Date range: 1980 to 2018
+
+The Midwives Notification System (MNS) is a source of information on a child's birth provided by healthcare professionals at the time of birth. In addition to date of birth and demographics, the MNS also contains characteristics about a child's birth. From the MNS, we use data on:
+
+- Date of birth
+- Gestational age
+- Birthweight
+- Stillbirth status
+- Sex
+
+### Birth registrations {-}
+
+- Custodian: The Registry of Births, Deaths and Marriages
+- Date range: 1945 to 2019
+
+The birth registrations data is provided by parents to the state and contains details such as date of birth, sex, and other demographic characteristics of the person being born and their parents. Birth registrations data were only used in the calculation of date of birth.
+
+### Death registrations {-}
+
+- Custodian: The Registry of Births, Deaths and Marriages
+- Date range: 1971 to 2019
+
+Death registrations were used to identify deaths of the cohort and their siblings for analyses where censoring was used and to report on the number of deaths in a given period.
+
+### Hospital Morbidity Data Collection {-}
+
+- Custodian: WA Department of Health
+- Date range: 1970 to 2019
+
+The Hospital Morbidity Data Collection (HMDC) contains data on hospital separations in Western Australia, which includes both public acute and psychiatric hospitals and private acute, psychiatric, and day surgeries (where private hospitals are licensed by the WA health system). This study used the data for the cohort which spans 2000 to 2019. The key variables used in analyses of this dataset:
+
+- Principal diagnosis
+- Additional diagnoses
+- Admission and separation dates
+- Mode of separation
+
+Diagnoses, both principal and additional, were coded using the International Classification of Diseases version 10, Australian Modification (ICD-10-AM). From 2000 to 2019 this has progressed from the 1st Edition of the ICD-10-AM through to the 7th Edition. The Hospital Morbidity Database utilizes qualified clinical coders to create this information, who review each patient’s medical records and translating the conditions recorded into the diagnostic framework of the ICD-10-AM. This is important, as it provides a degree of standardisation in how diagnoses are recorded in this dataset.
+
+The principal diagnosis contains only one diagnosis and reflects the primary reason for a given episode of care. There are up to 20 additional diagnosis fields which are optional and may contain additional diagnoses made during the episode of care. Across the more than 100,000 records, 66% had at least one additional diagnosis. The median number of additional diagnoses was 2, see Figure \@ref(fig:ediag) for a histogram of the number of additional diagnoses for children in the cohort who had at least one record in the EDDC.
+
+```{r ediag, echo = FALSE, fig.cap="Histogram showing the frequency of the number of additional diagnoses in the Emergency Department Data Collection for the cohort who had at least one record in the EDDC.", out.width="100%", fig.pos="H"}
+include_graphics(here("data","ediag_plot.png"))
+```
+
+### Emergency Department Data Collection {-}
+
+- Custodian: WA Department of Health
+- Date range: 2002 to 2019
+
+Similar to the HMDC, the Emergency Department Data Collection (EDDC) records information on emergency department presentations but only for public hospitals. A key difference in the diagnostic coding is that, while the ICD-10-AM is still used for some records, entries are made by clinical staff who are not necessarily trained in applying the ICD-10-AM. Changes in administrative practices over time and across regions also meant that records from certain hospitals were coded in formats other than ICD-10-AM. Due to uncertainty in the quality and consistency of diagnoses in the EDDC, diagnoses were not analysed. The variables from the EDDC used for analysis were:
+
+- Admission date
+- Separation date
+- Separation reason
+
+Separation reason included a brief description of the outcome of a patient's presentation in an emergency department, such as admitted to hospital, self-discharge, or transferred to another hospital.
+
+### WA Register of Developmental Anomalies - Birth Defects {-}
+
+- Custodian: WA Department of Health
+- Date range: 1980 to 2019
+
+The WA Register of Developmental Anomalies (WARDA) operates two registries that monitor developmental anomalies in WA, one for birth defects and one for cerebral palsy. The register of birth defects records data on structural and functional anomalies which are diagnosed during pregnancy or before the age of six. This includes many kinds of anomalies, but for this thesis I focus only on chromosomal anomalies and foetal alcohol spectrum disorder. Anomalies are coded according to the British Paediatric Association's ICD-9 coding.
+
+### WA Register of Developmental Anomalies - Cerebral Palsy {-}
+
+- Custodian: WA Department of Health
+- Date range: 1980 to 2019
+
+The WARDA register of cerebral palsy records clinical information on cerebral palsy and associated impairments. This research only used the level of intellectual impairment, used to identify cases of intellectual disability where the level of impairment is mild to severe.
+
+### Intellectul Disability Exploring Answers {-}
+
+- Custodian: Telethon Kids Institute
+- Date range: 1983 to 2019
+
+The Intellectual Disability Exploring Answers Database (IDEA) contains records on all children born in WA since 1983 who have been diagnosed with an intellectual disability. These records originally came from the WA Intellectual Disability Database, which turned into IDEA in 2002. From 2002 onward, data in IDEA were supplied by the Disability Services Commission, the Department of Education and Training, or the previous iterations of these departments. Criteria include an IQ score of less than 70 and indication of developmental delay made before age 18. The dataset provides a list of all diagnoses made for a given child that fall under the scope of IDEA, and was used to identify cases of developmental delay, intellectual disability, autism, foetal alcohol spectrum disorder, and Down syndrome.
+
+### Mental Health Information System {-}
+
+- Custodian: WA Department of Health
+- Date range: 2000 to 2019
+
+The Mental Health Information System (MHIS) includes data on mental health episodes for public and private inpatient services and public outpatient services. Each record contains an ICD-10 code for the principal diagnosis collected at the beginning of an episode and at discharge. Only diagnoses at admission were used in analyses.
+
+### Child Protection and Family Support Data {-}
+
+- Custodian: Western Australian Department of Communities
+- Date range: 1979 to 2020
+
+The data analysed were derived from two separate datasets, one containing notifications, investigations, and substantiations, and the other, placements. While the datasets contained service information covering up to 2020, any children whose first contact with child protective services occurred after June 2015 was not included as the last linkage of clients in DLSWA occurred in 2015. This applied to both the cohort and their siblings, meaning for all analyses where children were grouped according to having contact with child protective services, a small percentage of them are incorrectly classified as never having contact, when in fact their first recorded contact occurred in the July 2015 to December 2019 period, meaning it does not appear in the data. Additionally, the data only contain selected records from systems previous to 1994, meaning only data from 1994 onward is reliable.
+
+#### Notifications, investigations, substantiations {-}
+
+Notifications received by the Department of Communities are recorded in this dataset. It includes the source of the notification (e.g. teacher, police officer), type of abuse concern (if any), and the Department’s decision on what to do after receiving the notification. It also includes whether the notification progressed to an investigation and if it did, the start and end dates of the investigation along with the investigation’s outcome.
+
+#### Placements {-}
+
+The placements dataset contains information on a child's placement into out-of-home care. This includes the start and end dates, the type of placement (such as Departmental Foster Care or Parent or Guardian), and whether the carer was Aboriginal. It also contains identifiers for periods of care, where a child might be placed into multiple different living arrangements, where these arrangements form part of the same period of out-of-home care.
+
+### Family connections database {-}
+
+The WA Family Connections System contains links between individuals who are related, created using Birth Registrations and the Midwives Notification System. These relationships are usually, but not always, biological. This database therefore identifies the children’s parents and their siblings. While all children in the cohort are linked to their mother, only 80% are linked to a father, meaning information relying on paternal data, such as identifying paternal half-siblings, is missing. Additionally, children whose parents who were born in a different state or country and therefore do not have a WA birth record, also have incomplete family linkages.
+
+## Methodological considerations
+
+In this section I outline important methodological and analytic decisions relevant to this thesis. While Chapters 3, 4, and 5 have methods sections detailing the fundamental methods needed to interpret the results, they were written to meet word counts for the respective journals, so I provide a more detailed explanation of the data and analytic decisions here.
+
+### Date of birth {-}
+
+Having multiple sources of date of birth information for the same child sometimes meant there were conflicting dates. Given these inconsistencies, the following rules were applied to determine a child's date of birth:
+
+1. If the MNS and Birth Registrations date were the same, use this date.
+2. If the MNS and Birth Registrations date were different, use the MNS date when a HMDS record also existed with the same date of birth.
+3. If there was no agreement between the MNS and HMDS records, use the Birth Registrations date if a HMDS record also existed with the same date of birth.
+4. If none of the MNS, Birth Registrations, and HMDS records agreed, use the MNS date.
+
+This also impacted the use of HMDC and EDDC datasets, where I calculated age at admission based on this date of birth, rather than using the age at admission provided in these datasets.
+
+### Censoring {-}
+
+The length of follow-up time varies across the datasets. Right-censoring occurred in the case of a child's death or at the end of follow-up. There will be some instances of unidentified right-censoring, where a child leaves Western Australia (for example, they move interstate with their family). In these cases the child would be contributing follow-up time to analyses when they should have been censored. In the absence of cross-jurisdictional data linkage, these cases were unable to be identified. Data from the Australian Bureau of Statistics indicates 2,793 Aboriginal people moved out of Western Australia between the 2011 and 2016 censuses however this includes all Aboriginal people except children aged under 5. This represents approximately 4% of the 69,664 Aboriginal people recorded in the 2011 census and it is unlikely that interstate movement greatly affected my findings.
+
+### Contacts with the child protection system {-}
+
+As outlined previously, each stage of WA's child protection system should follow a strict ordering of events. That is, each subsequent stage should not occur unless conditions in the previous stage have been met. An investigation should follow a notification, substantiation of maltreatment should follow an investigation, and the placement of a child should follow a substantiation. In some cases the dates for these different stages are all recorded on the same day. An example where this might occur is where a child is admitted to hospital for a physical injury where it is suspected the injury was sustained from physical abuse - in this case the Department of Communities might be notified by a medical doctor, conduct an investigation and substantiate concerns about physical abuse, then place the child in an emergency placement because it was not considered safe to discharge the child back to their parents.
+
+For analysis purposes, the following variables from the Child Protection and Family Support dataset were used to identify each stage, with Table \@ref(tab:example) providing an synthetic example of the data for illustrative purposes.
+
+- Notifications were identified using the 'Notification date' variable, which identifies the date on which a notification was received.
+- Investigations were identified using non-missing values of the 'Investigation start date' variable, which was used to define the date at which the investigation tied to a given notification commenced. Missing values were interpreted to mean no investigation took place in relation to the associated notification
+- Substantiations were identified using non-missing values of the 'Investigation end date' and 'Investigation outcome' variables. Since all investigations have an end date, only records which had an investigation outcome of 'Substantiated' or 'Substantiated likelihood harm' were classified as being substantiated. In the dummy dataset below, ID 1 would be considered to have a substantiated case of maltreatment, while ID 3 would not.
+- Placements were identified using the 'Placement start' variable. 
+
+```{r, echo = FALSE}
+example_cp <- tibble(
+  `ID` = c(1,2,3),
+  `Notification date` = c("2020-03-01", "2019-04-02", "2019-05-14"),
+  `Investigation start date` = c("2020-03-05", "", "2019-05-19"),
+  `Investigation end date` = c("2020-03-06", "","2019-05-21"),
+  `Investigation outcome` = c("Substantiated", "","Unsubstantiated"),
+  `Placement start date` = c("2020-03-21", "","")
+)
+```
+
+```{r example, echo = FALSE}
+kable(example_cp, 
+      booktabs = T,
+      caption = 'Dummy example of child protection data.'
+      ) |> 
+  kable_styling(latex_options = c("scale_down","HOLD_position"))
+```
+
+### Health data {-}
+
+The datasets which were used to examine the health of children in the cohort were:
+
+- Hospital Morbidity Data Collection
+- Emergency Department Data Collection
+- WA Register of Developmental Anomalies - Birth Defects
+- WA Register of Developmental Anomalies - Cerebral Palsy
+- Intellectual Disability Exploring Answers
+- Mental Health Information System
+
+Due to changes in the systems being used by emergency departments in WA between 2000 and 2019, the Department of Health advise that the diagnosis variable in EDDC should be interpreted with care. Combined with the fact that clinicians rather than clinical coders record the diagnosis, diagnoses from the EDDC were not used to identify health conditions, relying only on HMDC data to identify conditions in hospital data.
+
+For Chapter 4, since the goal was to identify the prevalence of conditions both the principal and additional diagnoses were utilised, as this provided the maximal scope to identify the conditions of interest. For Chapter 5, the goal was to estimate the rate of potentially preventable hospitalisations, so only the principal diagnosis was used as this was taken to represent the primary reason for which a child had an admission.
+
+### Remoteness and socioeconomic status {-}
+
+The MNS contained variables added by DLSWA which detailed the Remoteness Area and socioeconomic index of the area a child's mother was living at the time of the child's birth. I use the 2011 versions calculated at the Statistical Area 2 (SA2) level as 2011 represented an approximate mid-point in the follow-up period (2000 to 2019) and SA2 had the lowest amount of missing data relative to other geography and year combinations.
+
+Remoteness Area is part of the Australian Standard Geography Standard and is a method used by the Australian Bureau of Statistics [@remotenessarea] (ABS) to categorise areas of Australia into one of five categories:
+
+1. Major Cities of Australia
+2. Inner Regional Australia
+3. Outer Regional Australia
+4. Remote Australia
+5. Very Remote Australia
+
+This categorisation is based on ARIA+ scores provided by the University of Adelaide, who calculate scores for each square kilometre of Australia based on how far by road they are from five different categories of 'Service Centre'. The ABS then calculates an average ARIA+ score for each Statistical Area 1, which is then translated to other geography standards using correspondence mappings.
+
+For socioeconomic status, the Index of Relative Socioeconomic Advantage/Disadvantage [@seifa] (IRSAD) was used as it in part avoids the deficit discourse that might be conveyed by using only a measure of disadvantage. IRSAD scores represent the overall economic and social conditions of an area. Lower IRSAD scores indicate relatively greater disadvantage and lack of advantage, while higher scores indicate relatively greater advantage and lack of disadvantage. 
+
+IRSAD is calculated using many different variables collected as part of the Australian Census, such as percentage of people unemployed or houses classified as overcrowded for disadvantage, and percentage of people employed as 'Professionals' or the proportion of households with an income in the 9th or 10th deciles for advantage. The state-level IRSAD variable was used as comparisons being made throughout this thesis only relate to Aboriginal and Torres Strait Islander children in WA, so understanding their socioeconomic environment in relation to Western Australians generally was more relevant.
+
+### Matching {-}
+
+In Chapters 4 and 5, matching was used to match children who did not have a recorded placement in out-of-home care in the follow-up period to children who did (referred to as never- and ever-placed, respectively). Fundamentally, matching takes individuals in one group (often termed the 'treatment' group) and using specified characteristics, finds individuals from the group you wish to compare against (the 'control' group) that match those in the treatment group. Each individual in the treatment group is then matched to a number of individuals in the control group. The purpose of matching is to create balance in the specified covariates which are expected be related to the measurement of the outcome of interest.
+
+The `MatchIt` package in R [@matchit] was used to perform matching. There are many ways to perform matching, and the method used differs slightly between Chapters 4 and 5, however both chapters match based on:
+
+- A matching ratio of 2:1, meaning two never-placed children were matched to each ever-placed child.
+- Matching without replacement, meaning once a never-placed child is matched they were removed from the pool of potential matches.
+- Children with missing values of the matching variables were excluded from the matching process.
+
+In Chapter 4, the purpose of the matching was to have a comparison group for ever-placed children who were more similar in terms of year of birth, remoteness area at birth, and IRSAD at birth. Year of birth was especially important as I examine both the prevalence and cumulative incidence of mental and neurodevelopmental health conditions, where diagnosis of many of the conditions examined does not often occur until a certain age. Prior to matching, 31.1% of never-placed children were born in the years 2010 to 2013 compared to 24.7% of ever-placed children. Analysing the unmatched never-placed cohort would have biased their prevalence estimates for conditions with age-dependent diagnoses to be smaller, due to a greater proportion of never-placed children not reaching an age at which a diagnosis could be made.
+
+In Chapter 5, matching was completed with the intention of attempting to estimate the causal effect of placement in out-of-home care on the rate of potentially preventable hospitalisations. Given that time at risk is an important component of analysing outcomes which are counts of events, matching was based on both the month and year of birth, rather than only year of birth as in Chapter 4. This meant the matched, never-placed children had a more comparable time at risk. 
+
+## Software
+
+All analyses throughout this thesis were performed using R [@r] and RStudio [@rstudio]. Each chapter in this thesis was written using RMarkdown [@rmarkdown], including the parts of Chapters 3, 4, and 5 that were submitted for publication. This means the formatting of the papers in this thesis will be different to their online published format. This is because this thesis renders the original RMarkdown files, whereas the published papers underwent editorial changes to make them consistent with each journal's formatting. I outline the R packages used and their purposes in Table \@ref(tab:packages).
+
+```{r packages, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("2_data", "packages.csv")) |>
+  mutate(`Author(s)` = str_trim(`Author(s)`, side = "both")) |> 
+  kable(
+    linesep = "",
+    format = "markdown",
+    escape = F,
+    caption = 'List of R packages used in this thesis.'
+  )
+```

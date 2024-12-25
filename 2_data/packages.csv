@@ -1,0 +1,23 @@
+﻿Package,Role,Author(s)
+`bookdown`,Writing of chapters and manuscripts, @bookdown
+`cobalt`,Creation of the Love plots in Chapter 4, @cobalt
+`dagitty`,Creating the directed acyclic graph in Chapter 5, @dagitty
+`data.table`,Importing and joining the raw datasets for all analyses, @datatable
+`DiagrammeR`,Creating the flow diagram for the analysis sets in Chapter 3, @diagrammer
+`emmeans`,Calculating post-estimation marginal rates in Chapter 5, @emmeans
+`epiR`,Calculating incidence rates and rate ratios in Chapter 5, @epir
+`gee`,Regression model estimation in Chapter 5, @gee
+`glmmTMB`,Regression model estimation in Chapter 5, @glmmtmb
+`here`,Managing directories and file referencing, @here
+`janitor`,Data cleaning and tabulation, @janitor
+`kableExtra`,Modifying table styling for manuscripts and chapters, @kableExtra
+`knitr`,"Writing chapters, manuscripts, and creating tables", @knitr
+`lubridate`,Data cleaning for dates and times, @lubridate
+`MatchIt`,Performing the matching in Chapters 4 and 5, @matchit
+`mfp2`,Identifying multivariable fractional polynomial forms for variables in Chapter 5, @mfp2
+`patchwork`,Producing graphs, @patchwork
+`prevalence`,Estimating prevalence in Chapter 4, @prevalence
+`rmarkdown`,Writing of chapters and manuscripts, @rmarkdown
+`survival`,Time-to-event data setup, @survival
+`survminer`,Calculation and plotting of cumulative incidence in Chapter 3, @survminer
+`tidyverse`,"Data cleaning, data visualisation, saving output", @tidyverse

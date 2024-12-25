@@ -1,0 +1,157 @@
+---
+title: "Supplementary materials"
+output: bookdown::pdf_document2
+toc: false
+number_sections: false
+---
+
+```{r, include=FALSE, echo = FALSE, warning= FALSE}
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+options(knitr.kable.NA = ' ')
+here::i_am("5_pph/supplementary-materials.Rmd")
+library(here)
+
+stats <- read_csv(here("5_pph","data","single_stats.csv"))
+conditions <- read_csv(here("5_pph","data","conditions_all.csv")) |> mutate(diag = str_replace(diag,"≥"," "))
+h00 <- " "
+h04 <- paste0("Ages 0-4\nN = 10,541")
+h59 <- paste0("Ages 5-9\nN = 3,016")
+h1014 <- paste0("Ages 10-14\nN = 960")
+condh <- c(h00 = 1,h04 = 2,h59 = 2,h1014 = 2)
+names(condh) <- c(" ", h04, h59, h1014)
+```
+
+After grouping by child identifier and ordering by admission date then record type (so emergency records appear first when admission dates for emergency department and hospital admissions are the same, as participant flow is typically from emergency department to the hospital, not the other way round), we applied the following criteria to identify periods of care:
+
+-	If the admission or separation date of the previous row is the same as the current row’s admission date: classify as the **same** period of care
+-	If the admission or separation date of the previous row is 1 day before the current row’s admission date and the separation reason **is** in the list of accepted transfer reasons: classify as the **same** period of care
+- If the admission or separation date of the previous row is 1 day before the current row’s admission date and the separation reason **is not** in list of accepted transfer reasons: classify as a **different** period of care
+-	If the admission or separation date of the previous row is more than 1 day before the current row’s admission date: classify as a **different** period of care
+
+Accepted transfer reasons:
+
+- Admitted
+- Admitted to ED Observation Ward
+- Discharge/transfer to an (other) acute hospital
+- Other hospital
+- Transferred
+
+\newpage
+
+```{r pphadm, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data","analysis_1adm.csv")) |> 
+  pivot_wider(
+    names_from = exposure,
+    values_from = c(hospital_days, days_at_risk, inc_rate, irr)
+  ) |> 
+  select(
+    age_group,
+    ends_with("Never placed"),
+    ends_with("Ever placed"),
+    ) |> 
+  select(-`irr_Never placed`) |> 
+kable(
+  booktabs = T,
+  caption = "Rates of PPH admissions per 1,000 person-years at risk and incidence rate ratios, by placement group and age, for Aboriginal children born in Western Australia between 2000 and 2013.",
+  align = "c",
+  format.args = list(big.mark = ","),
+  col.names = c(
+    "Age group",
+    "PPH admissions",
+    "Days at risk",
+    "Incidence rate (95% CI)",
+    "PPH admissions",
+    "Days at risk",
+    "Incidence rate (95% CI)",
+    "Incidence rate ratio (95% CI)"
+  )
+) |>
+  add_header_above(c(
+    " " = 1,
+    "Never-placed children" = 3,
+    "Ever-placed children" = 3,
+    " " = 1
+  )) |> 
+  kable_styling(latex_options = c("scale_down","HOLD_position")) |> 
+  add_footnote(label = c("95% CI means 95% confidence interval"))|> 
+  landscape()
+```
+
+\newpage
+
+```{r, echo = FALSE}
+options(knitr.kable.NA = "")
+kable(
+  conditions,
+  booktabs = T,
+  caption = "Number and proportion of potentially preventable hospitalisation diagnoses within hospitalisation periods, by 5-year age groups and placement group",
+  align = "c",
+  linesep = "", 
+  col.names = c(
+    "Diagnosis",
+    "Never placed",
+    "Ever placed",
+    "Never placed",
+    "Ever placed",
+    "Never placed",
+    "Ever placed"
+  )
+) |>
+  add_header_above(condh) |>
+  add_footnote(label = c("'N's represent number of hospitalisation periods for a given age group.","n.p. means not published due to small cell counts"))|> 
+  landscape()
+```
+
+Directed acyclic graph of pathways to placement in out-of-home care and potentially preventable hospitalisations.
+
+```{r, echo = F}
+library(dagitty)
+dag <- dagitty('dag {
+bb="-4.804,-4.019,4.485,3.592"
+"PPH Rate" [outcome,pos="1.002,0.416"]
+"Parent SES" [adjusted,pos="-0.278,-2.546"]
+"Parent drug use" [pos="-1.203,-2.050"]
+"Parent removed as child" [adjusted,pos="1.389,-2.110"]
+"Parental MH" [pos="-1.504,-1.271"]
+"Parental int. dis." [pos="-1.563,-0.620"]
+"Sibling placed" [pos="-0.770,1.426"]
+"Teenage parent" [pos="-1.334,0.108"]
+Age [adjusted,pos="-0.127,1.460"]
+Culture [pos="0.897,-2.880"]
+FDV [pos="1.730,-1.014"]
+Housing [pos="0.831,-1.211"]
+Placement [exposure,pos="-0.383,0.347"]
+Remoteness [adjusted,pos="0.720,1.503"]
+"Parent SES" -> "PPH Rate"
+"Parent SES" -> "Parent drug use"
+"Parent SES" -> "Parental MH"
+"Parent SES" -> "Teenage parent"
+"Parent SES" -> FDV
+"Parent SES" -> Housing
+"Parent drug use" -> Placement
+"Parent drug use" <-> "Parental MH"
+"Parent removed as child" -> "Parent SES"
+"Parent removed as child" -> "Parent drug use"
+"Parent removed as child" -> "Parental MH"
+"Parent removed as child" -> FDV
+"Parental MH" -> Placement
+"Parental int. dis." -> Placement
+"Sibling placed" -> Placement
+"Teenage parent" -> Placement
+Age -> "PPH Rate"
+Age -> Placement
+Culture -> "Parent removed as child"
+Culture -> Placement
+FDV -> "PPH Rate"
+FDV -> Placement
+Housing -> "PPH Rate"
+Housing -> Placement
+Placement -> "PPH Rate"
+Remoteness -> "PPH Rate"
+Remoteness -> Placement
+}
+')
+plot(dag)
+```

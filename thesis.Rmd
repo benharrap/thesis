@@ -1,0 +1,587 @@
+---
+title: "The Health of Aboriginal Children born in Western Australia in the Context of Out-of-Home Care"
+link-citations: yes
+bibliography: "references.bib"
+csl: "harvard-the-university-of-melbourne.csl"
+output:
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: true
+header-includes:
+  - \pagenumbering{gobble}
+  - \makeatletter\renewcommand*{\fps@figure}{H}\makeatother
+  - \usepackage[nottoc]{tocbibind}
+  - \usepackage{pdflscape}
+  - \newcommand{\blandscape}{\begin{landscape}}
+  - \newcommand{\elandscape}{\end{landscape}}
+---
+
+\begin{center}
+
+\large Benjamin Jack Allam Harrap
+
+\large ORCID 0000-0002-0889-6214
+
+\large Doctor of Philosophy
+
+\large Originally submitted June 2024
+
+\large Faculty of Medicine, Dentistry and Health Sciences
+
+\large Melbourne School of Population and Global Health
+
+\large Submitted in total fulfilment for the degree of Doctor of Philosophy
+
+\end{center}
+
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(janitor)
+here::i_am("thesis.Rmd")
+library(here)
+```
+
+\newpage
+
+\pagenumbering{arabic}
+
+\begin{center}
+
+This thesis is dedicated to Randy, Billie, Kelsie, and my parents. From the passing of one life to the beginning of another.
+
+\end{center}
+
+\newpage
+
+# Abstract {-}
+
+Aboriginal and Torres Strait Islander children continue to be over-represented in child protection statistics and have an inequitable burden of disease, a consequence of the historic and ongoing colonisation of Australia. There is considerable research on Aboriginal children’s health and interactions with child protective services (CPS) as separate topics, but little that explores their health in the context of CPS involvement. By centring the perspectives of Aboriginal researchers and community reference group participants, my research connected their qualitative findings and conversations we had to population-level quantitative findings using a data linkage for all Aboriginal children born in Western Australia between 2000 and 2013.
+
+First, mothers with prior child removals felt ‘written off’; that removal of their future children was inevitable. This informed my analysis of family relationships and child protection data, which identified children born to mothers with a previous child removal were 16 times more likely to be removed themselves by age one. Also, among sibling groups where at least one sibling was placed in out-of-home care (OOHC), 64.7% of siblings were placed in OOHC on the same date.
+
+In addition, carers suspected children in their care had mental and neurodevelopmental health conditions but struggled to get a diagnosis. I drew on hospital admissions and several sources of health data to compare the prevalence of mental and neurodevelopmental health conditions. Children ever-placed in OOHC had a three-times greater prevalence of neurodevelopmental (6.2%) and mental health (14.8%) conditions compared to never-placed children (2.0% and 5.0% respectively). Ever-placed children whose first placement occurred before the age of one had a higher prevalence of neurodevelopmental conditions (9.0%) compared to children first placed after the age of one (5.2%), while mental health conditions were similar (13.3% and 15.3%, respectively).
+
+Further, carers reported difficulty accessing primary healthcare services to meet the health needs of the children in their care. To explore this, I examined potentially preventable hospitalisations (PPHs), an indicator of inadequate primary healthcare. Diagnoses for PPHs were similar for ever- and never-placed children, however the rate of bed days for PPHs was overall 2.3 times higher for ever-placed children, with the rates being highest during the first year of life. The rate of PPH bed days for ever-placed children on average reduced by 11% following first placement in OOHC, however, the rate did not reach parity with that of never-placed children.
+
+In summary, these quantitative findings support the qualitative research and experiences of the community reference group and demonstrates how widespread their experiences are for Aboriginal children and families across Western Australia. To reduce the concurrent and future risk of removal for children and their siblings, meet the increased mental and neurodevelopmental healthcare needs of children in OOHC, and lower rates of PPHs, greater support is needed for Aboriginal children with experience of OOHC and their parents and carers. This support must be culturally safe, which includes funding service delivery through Aboriginal community-controlled organisations, building a culturally competent child protection and healthcare workforce, and decolonising state operated systems of child protection and healthcare.
+
+\newpage
+
+# Declaration {-}
+
+I confirm that this thesis comprises only my original work towards the Doctor of Philosophy.
+
+I confirm that due acknowledgement has been made in the text to all other material used.
+
+I confirm that this thesis is shorter than the maximum word limit, exclusive of tables, bibliographies, and appendices.
+
+# Preface {-}
+
+```{r child = './0_intro/intro.rmd'}
+```
+
+\newpage
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+Permission to reproduce Figure 2 from [@bilson2017] has been granted by Elsevier, license number 5803001189741, 2024-06-06.
+
+\newpage
+
+# Literature review
+
+```{r child = './1_lit_review/Literature-review.rmd'}
+```
+
+\newpage
+
+# Data and methodology
+
+```{r child = './2_data/Methodology.rmd'}
+```
+
+\newpage
+
+# Cumulative incidence of child protection contacts by birth cohort and maternal sibling group
+
+From conducting the literature review, it was evident that more contemporary, detailed statistics were needed on the rates of contact by CPS with Aboriginal children born in Western Australia. Given the most contemporary detailed analysis of CPS statistics in WA for Aboriginal children covered up to 2010 [@bilson2015;@odonnell2019] at the time of conducting this research in 2021, providing an updated analysis of the trends in contacts over time was a natural place to start.
+
+The direction taken in this chapter was also informed by the conversations I was part of with the community reference group and preliminary, as yet unpublished, findings from other researchers analysing the qualitative interviews for the I-CaRe WA study. A theme which came up several times and seemed to be a source of great frustration was the way that the Department of Communities treated families, and mothers in particular, following the first removal of a child. The feeling was that families were "written off" in the sense that they were not given an opportunity to make changes in order to prevent future children being removed, with references to mothers having their kids taken immediately after birth. Given the data linkage included the identification of biological family relationships, we could identify which of the children in the cohort were born to the same mother and examine how contacts with CPS were clustered within maternal sibling groups. Prior research has only examined clustering within families by including previous removal of a child as an explanatory variable in regression models [@jenkins2018], which does not provide information on the scale and timing of placements.
+
+What follows here is my paper titled "Cumulative incidence of child protection system contacts among a cohort of Western Australian Aboriginal children born 2000 to 2013" [@harrap2023], published in Child Abuse & Neglect.
+
+```{r child = './3_descriptive_removals/descriptive_removals.Rmd'}
+```
+
+## Further commentary
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+isf_contacts <- read_csv(here("data","isf_interactions.csv"))
+isf_time <- read_csv(here("3_descriptive_removals","output","first_contacts_alive.csv")) |> 
+  select(Stage, starts_with("Percent")) |> 
+  rename_with(~str_replace(.,"Percent_","")) |> 
+  mutate(Group = "Original cohort") |> 
+  bind_rows(read_csv(here("data","isf_alive.csv")) |> 
+              mutate(Group = ifelse(ISF=="ISF","Own ISF","Other ISF")) |> 
+              select(-ISF)) |> 
+  mutate(Group = factor(Group, levels = c("Original cohort","Own ISF","Other ISF")),
+         Stage = factor(Stage, levels = c("Notification","Investigation","Substantiation","Placement"))) |> 
+  arrange(Stage, Group) |> 
+  mutate(Stage = case_when(Group == "Original cohort" ~ Stage, TRUE ~ "")) |> 
+  select(Stage, Group, everything())
+```
+
+
+To assess the potential impact of the method of identifying Indigenous status and data quality issues with child protection data prior to 1994 on the findings, I performed two sensitivity analyses.
+
+For the impact of child protection data quality, this related to the fact that CPS data prior to 1994 was unreliable and thus a sibling of the cohort who was born prior to 1994 may not be correctly identified as having a contact. This would affect the analysis of the timing of first contact with CPS among siblings presented in Table \@ref(tab:mothercontact), whereby a sibling may have already had a contact with CPS prior to 1994 but it was not identified due to records not being available. To assess the impact, I restricted the analysis set to only children in the cohort whose oldest sibling was born in 1994 or later. This ensures that if any sibling had a contact with CPS it would be identified in the data. This restricted analysis was consistent with the findings of the original analysis, with the percentages for each stage and timing category being within 2.5% of the percentages in \@ref(tab:mothercontact).
+
+My second sensitivity analysis considers the method of identification for Indigenous status for the cohort. The "Own ISF" category represents children in the cohort whose own Indigenous Status Flag (ISF) indicated they were Aboriginal and/or Torres Strait Islander, the "Other ISF" category represents children whose own ISF did not identify them as Aboriginal and/or Torres Strait Islander, but they were included in the cohort due to a sibling, parent, or grandparent having an ISF that identified them as Aboriginal and/or Torres Strait Islander.
+
+Table \@ref(tab:isfcps) replicates Table \@ref(tab:cpscontacts), showing the number of contacts with CPS at different stages according to the method of identifying Indigenous status.
+
+```{r isfcps, echo = FALSE, warning = FALSE, message = FALSE}
+kable(
+  isf_contacts,
+  align = "c",
+  linesep = "",
+  caption = "Sensitivity analysis of the method of Indigenous identification on the percent of Aboriginal children born in Western Australia between 2000 and 2013 with zero to eight or more contacts with the child protection system between 2000 and 2015.",
+  booktabs = T,
+  col.names = c(
+    "Interactions",
+    "Own ISF",
+    "Other ISF",
+    "Own ISF",
+    "Other ISF",
+    "Own ISF",
+    "Other ISF",
+    "Own ISF",
+    "Other ISF"
+  )
+) |>
+  add_header_above(c(
+    " " = 1,
+    "Notification" = 2,
+    "Investigation" = 2,
+    "Substantiation" = 2,
+    "Placement" = 2
+  )) |>
+  kable_styling(latex_options = "HOLD_position")
+```
+
+Table \@ref(tab:isfcpstime) repeats the analysis of the timing of CPS contact for siblings presented Table \@ref(tab:mothercontact). Table \@ref(tab:isfcpstime) demonstrates that the substantive finding, that the majority of the cohort who were alive at the time of the first contact by CPS among any of their siblings also had a contact recorded on the same date. For children identified by their own ISF, the percentages are almost identical to the original analysis, which is in part explained by the fact that the majority of the children included in the original analysis were identified through their own ISF. While the vast majority of children identified through a family member's ISF did not have any contacts, those that did were even more likely to have a contact recorded on the same date as another sibling.
+
+```{r isfcpstime, echo = FALSE, warning = FALSE, message = FALSE}
+kable(isf_time,
+      align = "c",
+      linesep = "",
+      caption = "Sensitivity analysis of the method of Indigenous identification on the timing of first contact with each stage of child protective services relative to the earliest recorded contact within a sibling group for contacts occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013.",
+      booktabs = T) |>
+  kable_styling(latex_options = "HOLD_position")
+```
+
+
+
+
+In addition to the analysis presented in the paper published in Child Abuse & Neglect, I also examined how the cumulative incidence of first contacts varied across geographic areas. The following analyses categorise children based on the residential address of their mother at the time of their birth, which gives an indication of where the children would be growing up initially, however the analysis does not record changes in residential address. For example, if a family moved from the Pilbara region down to Perth, subsequent child protection records in this analysis were assigned to the Pilbara region as no geographic variables beyond birth location were available from the linked dataset. Child protection districts within the Perth area were defined as 'metropolitan' and all other areas were defined as 'regional', as illustrated in the map in Figure \@ref(fig:cprregions) based on information provided by the Department of Communities. Note the colours used in the figure are for visual distinction between child protection regions and do not represent any additional of information.
+
+```{r cprregions, echo = FALSE, fig.cap="Metropolitan and regional child districts in Western Australia", fig.pos="H", out.width="100%"}
+include_graphics(here("data","cpr_regions.png"))
+```
+
+I plot the cumulative incidence of contacts, similar to those in the paper, by broad regional area and by individual child protection district at birth (see Figure \@ref(fig:region)). The following plot demonstrates that children born to mothers living in metropolitan Perth had a much higher cumulative incidence of contacts at birth, with the trends being largely parallel for the remainder of follow-up for investigations and substantiations. Notifications ultimately converge by age 16, while placements seem to occur at an increased rate for children born in metropolitan areas across all ages. This suggests that the increased surveillance that occurs at birth, such as at the King Edward Memorial Hospital which has a child protection unit located within it, plays an important role in the increased cumulative incidence at birth. This may also be why metropolitan districts overall have higher rates of contact at birth, as the King Edward Memorial Hospital is the largest public hospital in WA and the major maternity hospital.
+
+```{r metreg, echo = FALSE, fig.cap="Cumulative incidence estimates with 95% confidence intervals for first child protection system contacts, between 2000 and 2015, by child protection district at birth, among Aboriginal children born in Western Australia, 2000-2013.", fig.pos="H"}
+include_graphics(here("data","interactions_region_alt.pdf"))
+```
+
+When examining the different child protection regions at birth (Figure \@ref(fig:metreg)), the Perth district had the highest rates of contact across all stages in the first year of life, while the Rockingham district had the lowest rates. Similar to the previous graph, the majority of the trajectories for child protection regions are similar after age 1. It is possible that the particular hospital that mothers birth at has an impact on rates of contacts at birth, however this was not explored.
+
+```{r metro, echo = FALSE, fig.cap="Cumulative incidence estimates with 95% confidence intervals for first child protection system contacts, between 2000 and 2015, by metropolitan child protection district at birth, among Aboriginal children born in Western Australia, 2000-2013.", fig.pos="H"}
+include_graphics(here("data","interactions_metro_all_alt.pdf"))
+```
+
+When examining the cumulative incidence of contacts for children born to mothers living in regional and remote child protection districts (Figure \@ref(fig:region)), the trajectories are fairly similar across each stage, although the East Kimberley district appears to have a higher rate of contacts earlier in a child's life. This is particularly evident for first placements in out-of-home care, where the rate of placement is considerably higher for children up to the age of two, after which the rate becomes comparable to the other child protection districts.
+
+```{r region, echo = FALSE, fig.cap="Cumulative incidence estimates with 95% confidence intervals for first child protection system contacts, between 2000 and 2015, by regional child protection district at birth, among Aboriginal children born in Western Australia, 2000-2013.", fig.pos="H"}
+include_graphics(here("data","interactions_regional_all_alt.pdf"))
+```
+
+The following tables present the same analysis of the timing of first contacts with child protective services for children with at least one other siblings, only for siblings that were born before the first contact among any of their siblings, further broken down by child protection district at birth.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "first_geog_notif.csv")) |>
+  kable(booktabs = T,
+        align = "c",
+        linesep = "",
+        col.names = c(
+          "Child protection region at birth",
+          "Notified on the same date",
+          "Notified at a later date",
+          "No notification recorded"
+        ),
+        caption = "Timing of first notification for children with at least one other sibling, for children who were born before the first notification amongst their siblings. Notifications occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013.") |>
+  kable_styling(
+    "striped",
+    full_width = TRUE,
+    latex_options = c("scale_down","HOLD_position")
+    )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "first_geog_invest.csv")) |>
+  kable(booktabs = T,
+        align = "c",
+        linesep = "",
+        col.names = c(
+          "Child protection region at birth",
+          "Investigated on the same date",
+          "Investigated at a later date",
+          "No investigation recorded"
+        ),
+        caption = "Timing of first investigation for children with at least one other sibling, for children who were born before the first investigation amongst their siblings. Investigations occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013.") |>
+  kable_styling(
+    "striped",
+    full_width = TRUE,
+    latex_options = c("scale_down","HOLD_position")
+    )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "first_geog_subst.csv")) |>
+  kable(booktabs = T,
+        align = "c",
+        linesep = "",
+        col.names = c(
+          "Child protection region at birth",
+          "Substantiated on the same date",
+          "Substantiated at a later date",
+          "No substantiation recorded"
+        ),
+        caption = "Timing of first substantiation for children with at least one other sibling, for children who were born before the first substantiation amongst their siblings. Substantiations occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013.") |>
+  kable_styling(
+    "striped",
+    full_width = TRUE,
+    latex_options = c("scale_down","HOLD_position")
+    )
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "first_geog_place.csv")) |>
+  kable(booktabs = T,
+        align = "c",
+        linesep = "",
+        col.names = c(
+          "Child protection region at birth",
+          "Placed on the same date",
+          "Placed at a later date",
+          "No placement recorded"
+        ),
+        caption = "Timing of first placement in out-of-home care for children with at least one other sibling, for children who were born before the first placement amongst their siblings. Placements occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013.") |>
+  kable_styling(
+    "striped",
+    full_width = TRUE,
+    latex_options = c("scale_down","HOLD_position")
+    )
+```
+
+```{r regmet, echo = FALSE, message = FALSE, warning = FALSE, results="asis"}
+read_csv(here("data", "region_table.csv")) |>
+  select(-Stage) |>
+  kable(
+    caption = "Timing of first contact with child protective services occurring between 2000 and 2015 for children with at least one other sibling, for children who were born before the first contact amongst their siblings.",
+    booktabs = T,
+    align = "c",
+    linesep = "",
+    col.names = c(
+      "Regionality at birth",
+      "Placed on the same date",
+      "Placed at a later date",
+      "No placement recorded"
+    )
+  ) |>
+  kable_styling("striped", full_width = TRUE, latex_options = c("scale_down","HOLD_position")) |>
+  pack_rows("Notification", 1, 2) |>
+  pack_rows("Investigation", 3, 4) |>
+  pack_rows("Substantiation", 5, 6) |>
+  pack_rows("Placement", 7, 8)
+```
+
+These tables demonstrate that across all regions, when one child from a group of siblings has their first contact at any stage of the child protection system, the majority of the time their siblings also have their first contact on the same date. There was some variation across the individual child protection districts, with the metropolitan districts seemingly having higher proportions of contacts occurring on the same date across all stages - a finding confirmed in Table \@ref(tab:regmet). Across all stages, the percentage of siblings with a contact on the same date is approximately ten percentage points higher for children born in metropolitan districts than regional districts, a finding consistent with the increased cumulative incidence of contacts for metropolitan child protection districts seen in Figure \@ref(fig:metreg).
+
+\newpage
+
+# A comparison of mental and neurodevelopmental health needs
+
+The finding that rates of contact across all stages of the child protection system are increasing for more recently born children, overall and at earlier ages, is important. Children having placements in OOHC at increasing rates and earlier in their lives means the growth in the number of children in OOHC will be outpacing population growth. Without increasing rates of reunification or reductions in the rate of placements, the number of children in OOHC in WA will grow to an unsustainable level.
+
+The consequence of this is an increasing demand on the resourcing that underlies the child protection system, with one of these being mandatory healthcare screening upon entry to OOHC and subsequent provision of healthcare services to meet the needs of these children [@cpmrapres]. If resourcing fails to keep up with demand, the availability of healthcare services the children receive can be expected to decrease. Knowing the prevalence of conditions among Aboriginal and Torres Strait Islander children in OOHC assists in planning and allocating resources. Resourcing means both financial resources, to pay for healthcare professionals to provide screening and support services, and human resources, such as ensuring there are a sufficient number of specialists available to provide healthcare to children in OOHC.
+
+One of the main focuses of the qualitative research conducted by other researchers on the I-CaRe WA study was the experiences of carers in meeting the healthcare needs of children in their care. This included a summary of the most commonly identified conditions by carers, many of which were developmental or neurodevelopmental in nature - such as developmental delay and foetal alcohol spectrum disorder (FASD). A theme that arose in their interviews was the difficulty in accessing diagnoses for young children who came into their care. One carer, who suspected their child had a neurodevelopmental condition, said they were told to wait until their child entered the educational system. Delaying diagnosis for potentially several years not only fails to meet the needs of the child in the years they go undiagnosed, it also prevents carers from accessing further financial and educational support that would help them meet the needs of the children in their care.
+
+Considering then that carers are identifying difficulties in accessing diagnoses and support, and that state and federal governments need to plan and fund services, data on the prevalence of health conditions is necessary. While this data exists at a population level for all children, there is very limited information available on the prevalence of health conditions for children in OOHC, even less for Aboriginal and Torres Strait Islander children in OOHC. The goal of this chapter then, was to address this data gap.
+
+What follows is my paper titled "Mental and neurodevelopmental health needs of Aboriginal children with experience of out-of-home care: a Western Australian data-linkage study", as it was submitted to the Australia and New Zealand Journal of Public Health. It is currently accepted with minor revisions, pending reviewer feedback on first round revisions.
+
+```{r child = './4_health_profile/mental_neurodev_health.Rmd'}
+```
+
+## Supplementary materials
+
+```{r child = './4_health_profile/supplementary materials.Rmd'}
+```
+
+## Further commentary
+
+A dynamic that was not explored in the paper was the multimorbidity of conditions. When examining the specific conditions listed in Table \@ref(tab:mhid) in the paper, for children who had at least one diagnosis, it was most common for this to be their only diagnosis - as demonstrated in Table \@ref(tab:comorb). The level of comorbidity was similar for both ever- and never-placed children, with ever-placed children having a higher prevalence of particular conditions as outlined in the paper. 
+
+```{r comorb, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "comorbs.csv")) |>
+  kable(
+    booktabs = T,
+    caption = "Number of diagnosed conditions for children with at least one diagnosis.",
+    align = "c",
+    linesep = "",
+    col.names = c(
+      "Number of diagnosed conditions",
+      "Never-placed",
+      "Ever-placed"
+    )
+  )
+```
+
+Approximately twice as many ever-placed children were born pre-term compared to never-placed children - a factor which is relevant in some of the conditions examined in the paper. The difference in the prevalence estimates according to gestational age is presented in Tables \@ref(tab:pretermever) and \@ref(tab:pretermpre), where pre-term is defined as a gestational age of less than 37 weeks, and term is defined as gestational age of greater than or equal to 37 weeks. 
+
+For the comparison of ever and never-placed cohorts in Tables \@ref(tab:pretermever), the findings remain consistent with the main analysis however the confidence intervals in general widened due to having smaller numbers in the analysis groups. Ever-placed children born pre-term had an estimated prevalence of 11.1% for neurodevelopmental conditions, almost three times higher than the 4% for never-placed children born pre-term. For ever-placed, full-term children, their estimated prevalence was 4.9%, again almost three times higher than the 1.8% for never-placed, full-term children. The difference in prevalence estimates for ever-placed children depending on their pre-term status is to be expected, as many of the neurodevelopmental conditions examined are more prevalent in children born pre-term, as also evidenced by the higher prevalence of these conditions for never-placed pre-term children relative to never-placed full-term children. This same pattern also occurs for FASD and developmental delay.
+
+The prevalence estimates for mental health conditions are again consistent with the main findings of this chapter, with both preterm and term ever-placed children have a prevalence around three times greater than their term, never-placed counterparts. Unlike for neurodevelopmental conditions, the prevalence estimates for mental health conditions were similar for preterm and term births.
+
+```{r pretermever, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "conditions_preterm.csv")) |>
+  filter(condition != "Hyperkinetic", condition != "Conduct") |> 
+  select(condition, 2, 3, 4, 5) |>
+  kable(
+    booktabs = T,
+    caption = "Frequencies and prevalence estimates with 95-percent Clopper-Pearson confidence intervals for neurodevelopmental and mental health conditions for the ever- and never-placed cohort by gestational age.",
+    align = "c",
+    linesep = "",
+    col.names = c(
+      "Condition",
+      "Never-placed, N = 833",
+      "Ever-placed, N = 766",
+      "Never-placed, N = 6,556",
+      "Ever-placed, N = 2,954"
+    )
+  ) |>
+  add_header_above(c(" ", "Preterm (<37 weeks)" = 2, "Term (>= 37 weeks)" = 2)) |>
+  kable_styling(latex_options = "HOLD_position", full_width = TRUE)
+```
+
+For the comparison of ever-placed children according to their age at first placement and gestational age, presented in Table \@ref(tab:pretermpre), the results suggest that some degree of the difference noted in the main findings is likely affected by the pre-term birth being a risk factor for neurodevelopmental conditions and for child removal in infancy. The prevalence estimates for neurodevelopmental conditions were around 11% for both pre-term and full-term children first placed before age one. For those first placed after age one, the cohort born pre-term had a slightly higher prevalence of 7.6% compared to 4.2% for the full-term cohort. The cohorts were similar when it came to mental health conditions, where most prevalence estimates were fairly comparable, while  those that had somewhat different point estimates tended to have confidence intervals that made it difficult to be confident that a difference existed.
+
+```{r pretermpre, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "conditions_preterm.csv")) |>
+  filter(condition != "Hyperkinetic", condition != "Conduct") |> 
+  select(condition, 6, 7, 8, 9) |>
+  kable(
+    booktabs = T,
+    caption = "Frequencies and prevalence estimates with 95-percent Clopper-Pearson confidence intervals for neurodevelopmental and mental health conditions for children first placed pre and post 1-year old by gestational age.",
+    align = "c",
+    linesep = "",
+    col.names = c(
+      "Condition",
+      "Pre-1yr, N = 317",
+      "Post-1yr, N = 409",
+      "Pre-1yr, N = 781",
+      "Post-1yr, N = 1,924"
+    )
+  ) |>
+  add_header_above(c(" ", "Preterm (<37 weeks)" = 2, "Term (>= 37 weeks)" = 2)) |>
+  kable_styling(latex_options = "HOLD_position", full_width = TRUE)
+```
+
+Finally, a sensitivity analysis for whether children were included in the cohort according to their Indigenous Status Flag ("Own ISF") or due to the Indigenous Status Flag of a sibling, parent, or grandparent ("Other ISF"). The results of both sensitivity analyses are presented in Figure \@ref(fig:prevplot). For the sensitivity analysis of ISF the estimates are largely consistent with the original estimates, although the confidence intervals are again much wider due to splitting the original groups into smaller subgroups - in particular for the "Other ISF" group. 
+
+```{r prevplot, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Prevalence estimates and 95% Clopper-Pearson confidence intervals for different conditions according to sensitivity analyses of Indigenous status identification and preterm birth.", fig.pos="H", fig.width = 6, fig.height = 8}
+data_ga <- read_csv(here("data", "conditions_preterm.csv"))
+data_isf <- read_csv(here("data","conditions_isf.csv"))
+data_orig <- read_csv(here("4_health_profile","output","id_mh_conditions.csv"))
+data_conds <- data_ga |>
+  left_join(data_isf, by = "condition") |>
+  left_join(data_orig, by = "condition") |> 
+  clean_names() |> 
+  pivot_longer(c(2:21),
+               values_to = "value",
+               names_to = "analysis") |> 
+  mutate(
+    group = case_when(
+      str_detect(analysis, "_preterm") ~ "Preterm",
+      str_detect(analysis, "_term") ~ "Term",
+      str_detect(analysis, "_isf") ~ "Own ISF",
+      str_detect(analysis, "_notisf") ~ "Other ISF",
+      .default = "Original"
+    ),
+    group = factor(group,
+                   levels = c("Term","Preterm","Other ISF","Own ISF","Original")),
+    comparison = case_when(
+      str_detect(analysis, "pre_1yr") ~ "Pre-1yr",
+      str_detect(analysis, "post_1yr") ~ "Post-1yr",
+      str_detect(analysis, "no_placement") ~ "Never-placed",
+      str_detect(analysis, "any_placement") ~ "Ever-placed"
+    ),
+    n = str_extract(value, "\\d+"),
+    estimate = as.numeric(str_extract(value, "(?<=\\[)\\d+.?\\d?")),
+    cil = as.numeric(str_extract(value, "(?<=\\()\\d+.?\\d?")),
+    ciu = as.numeric(str_extract(value, "\\d+.?\\d?(?=\\)\\])")),
+    condition = factor(
+      condition,
+      levels = rev(c(
+        "Any ID/DD/CA",
+        "Autism",
+        "Developmental delay",
+        "FASD",
+        "Any MH",
+        "Adjustment",
+        "Anxiety",
+        "Conduct",
+        "Depression",
+        "Hyperkinetic",
+        "PTSD"
+      ))
+    )
+  )
+
+data_conds |>
+  filter(condition != "Conduct", condition != "Hyperkinetic") |>
+  ggplot(aes(x = condition, y = estimate, ymin = cil, ymax = ciu, colour = group)) +
+  geom_pointrange(fatten = 0.5, position = position_dodge(width = 0.8)) +
+  scale_x_discrete(name = NULL) +
+  scale_y_continuous(name = "Prevalence estimate",
+                     breaks = seq(0,25,5),
+                     minor_breaks = seq(0,25,1)) +
+  scale_colour_brewer(name = NULL, palette = "Set2") +
+  coord_flip() +
+  facet_grid(rows = vars(comparison)) +
+  guides(color = guide_legend(reverse = T)) +
+  theme_bw()
+```
+
+\newpage
+
+# Rates of potentially preventable hospitalisations
+
+Building on the findings of the previous chapter, that children with experience of OOHC had greater mental and neurodevelopmental health needs, one question that follows is whether parents and carers are able to access the health and social support they need to meet the health needs of children in their care. In the I-CaRe WA study's qualitative interviews this question also came up, with staff at Aboriginal community-controlled health organisations (ACCHOs) identifying several factors that meant they were not able to provide all the services they saw as necessary. These included resourcing constraints which included not having enough time, funding, or Aboriginal or culturally competent staff to meet the needs of their community, and long wait times for external services, where these external services may also expose families to systemic racism. These barriers, which are common to many studies of health service delivery to Indigenous children in regional and remote areas [@dossetor2023], prevent ACCHOs from providing the primary healthcare services they know are needed. This means that parents and carers who want to use their services may not be able to, potentially leading to them not seeking healthcare until it becomes an emergency.
+
+While the data linkage did not contain primary care data to be able to assess service provision directly, the functioning of healthcare and social support systems can be examined using potentially preventable hospitalisations. Given that emergency department and hospital admissions were part of the data linkage, I examined rates of potentially preventable hospitalisations according to whether children had ever been placed in OOHC and the impact that first placement in OOHC has on these rates. 
+
+What follows is my manuscript titled "Potentially preventable hospitalisations for Aboriginal children with experience of out-of-home care: a data linkage study", submitted to the Australian and New Zealand Journal of Public Health and currently pending reviewer feedback.
+
+```{r child = './5_pph/pph.Rmd'}
+```
+
+## Supplementary materials
+
+```{r child = './5_pph/supplementary-materials.Rmd'}
+```
+
+## Further commentary
+
+In addition to the statistical modelling completed in the paper, I examined how the estimate of the effect of placement in OOHC varied according to model specification. The initial step in the modelling process was to use fixed-effects Poisson regression as a starting point to examine whether overdispersion was present, meaning an alternative model such as negative binomial regression would be more appropriate. Overdispersion was indeed present, so I opted to use negative binomial regression modelling, as presented in the paper. I also examined how different methods of accounting for clustering in the data affected the model estimates. While I settled on using random intercepts, I compared the estimates from models using generalised estimating equations with an exchangeable correlation structure and a random intercepts and slopes model. The estimated effect was fairly consistent across all model specifications, as seen in Table \@ref(tab:modelcomp).
+
+```{r modelcomp, echo = FALSE, message = FALSE, warning = FALSE}
+read_csv(here("data", "model_comparison.csv")) |>
+  mutate(ci = paste0(cil, " - ",ciu)) |> 
+  select(-cil,-ciu) |> 
+  select(model, Estimate, ci) |> 
+  kable(
+    booktabs = T,
+    caption = "Comparison of effect estimates under different modelling assumptions.",
+    align = "c",
+    linesep = "",
+    col.names = c(
+      "Model",
+      "Estimate",
+      "Confidence interval"
+    )
+  ) |> 
+  kable_styling(latex_options = "HOLD_position")
+```
+
+After having submitted the article for review, it was identified that gestational age is a likely confounder in the DAG, being related to both the probability of a child being removed at birth and the probability of a child having hospital admissions. For the relationship between gestational age and probability of child removals, this may be due to maternal health characteristics and behaviours during pregnancy that affect the likelihood that a child will be born pre-term also being a risk factor for child removal, such as substance use during pregnancy. The demographics for the ever-placed and never-placed also highlight the differences in rates if pre-term birth, where 20.3% of ever-placed children used in matching were born pre-term compared to 11.4% of the matched never-placed children. For the relationship between gestational age and the rate of PPHs, children who are born pre-term may have poorer health which leads to them having more hospitalisations. 
+
+In order to block the confounding effect of gestational age, a pre-term indicator was included in the regression model used for the main analysis in this chapter. Gestational age was split into a binary variable, where children were classified as either 'pre-term' when their gestational age was less than 37 weeks, or 'full-term' when their gestational age was greater than or equal to 37 weeks. The results of this sensitivity analysis suggest that the effect of first placement into OOHC on the rate of PPHs was robust to pre-term status. The estimated average effect of first placement in OOHC after controlling for pre-term status was a reduction of 13% (95% CI 5% to 20%), compared to a reduction of 11% (95% CI 3% to 19%) in the main model. Table \@ref(tab:pretermtable) presents a comparison of the estimates of the effect of placement in OOHC according to whether pre-term status is controlled for, highlighting that the effect estimates were not sensitive to pre-term status.
+
+```{r, echo = FALSE}
+preterm_table <- tibble(
+  Variable = c("Asthma and acute upper respiratory tract infections",
+               "Dental conditions",
+               "Gastroenteritis",
+               "Otitis media",
+               "Pneumonia",
+               "Skin infection"),
+  `Original estimate and CI` = c("0.74 (95% CI 0.6 - 0.93)",
+                                 "2.26 (95% CI 1.73 - 2.95)",
+                                 "0.75 (95% CI 0.6 - 0.95)",
+                                 "1.72 (95% CI 1.33 - 2.23)",
+                                 "0.74 (95% CI 0.56 - 0.99)",
+                                 "0.65 (95% CI 0.53 - 0.81)"),
+  `Estimate controlling for pre-term status` = c("0.73 (95% CI 0.58 - 0.90)",
+                                                 "2.21 (95% CI 1.70 - 2.87)",
+                                                 "0.74 (95% CI 0.59 - 0.93)",
+                                                 "1.71 (95% CI 1.33 - 2.20)",
+                                                 "0.74 (95% CI 0.55 - 0.98)",
+                                                 "0.65 (95% CI 0.52 - 0.80)")
+)
+```
+
+```{r pretermtable, echo = FALSE}
+kable(preterm_table,
+      booktabs = T,
+      caption = 'Comparison of model estimates for the effect of placement in OOHC by whether pre-term status is controlled for.',
+      align = 'c',
+      linesep = ""
+      ) |> 
+    kable_styling(latex_options = c("scale_down","HOLD_position"))
+```
+
+Note that the table does not present the coefficients for pre-term birth from the models as the pre-term birth was not the outcome or the focus of the DAG. To present and interpret the coefficients for pre-term birth would be a case of the 'Table 2' fallacy.
+
+\newpage
+
+# Discussion
+
+```{r child = './6_discussion/discussion.Rmd'}
+```
+
+\newpage
+
+# Bibliography
+
+<div id="refs"></div>
+
+\newpage
+
+\blandscape
+
+# Appendix
+
+```{r, echo = FALSE, fig.cap='Infographic created to summarise findings from Chapter 3'}
+include_graphics("3_descriptive_removals/removals_infographic.pdf")
+```
+
+```{r, echo = FALSE, fig.cap='Infographic created to summarise findings from Chapter 4'}
+include_graphics("4_health_profile/health_infographic.pdf")
+```
+
+```{r, echo = FALSE, fig.cap='Infographic created to summarise findings from Chapter 5'}
+include_graphics("5_pph/pph_infographic.pdf")
+```
+
+\elandscape

@@ -1,0 +1,334 @@
+---
+output:   
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+bibliography: "../references.bib"
+link-citations: yes
+csl: "../apa.csl"
+---
+
+```{r, include=FALSE, echo = FALSE, warning= FALSE}
+library(tidyverse)
+library(janitor)
+library(kableExtra)
+library(knitr)
+library(scales)
+library(DiagrammeR)
+here::i_am("3_descriptive_removals/descriptive_removals.Rmd")
+library(here)
+
+t1 <- read_csv(here("3_descriptive_removals","output","birth_cohort.csv"))
+t1$Percent <- str_remove(t1$Percent, "%")
+t2npct <- read_csv(here("3_descriptive_removals","output","all_interactions.csv"))
+t2 <- read_csv(here("3_descriptive_removals","output","all_interactions_num.csv"))
+t2pct <- read_csv(here("3_descriptive_removals","output","all_interactions_pct.csv"))
+t2pct <- t2pct %>% rename(`No contact` = 2)
+t3 <- read_csv(here("3_descriptive_removals","output","family_size.csv"))
+t4 <- read_csv(here("3_descriptive_removals","output","first_contacts_alive.csv"))
+paper_summary <- read_csv(here("3_descriptive_removals","output","paper_summary.csv"))
+stillbirths <- paper_summary %>% filter(stat == "stillbirths") %>% select(n) 
+cohortraw <- paper_summary %>% filter(stat == "cohort") %>% select(n)
+cohort <- format(cohortraw$n, big.mark = ",")
+allkidsraw <- paper_summary %>% filter(stat == "all_kids") %>% select(n)
+allkids <- format(allkidsraw$n, big.mark = ",")
+siblingsraw <- paper_summary %>% filter(stat == "siblings") %>% select(n)
+siblings <- format(siblingsraw$n, big.mark = ",")
+deaths <- paper_summary %>% filter(stat == "deaths") %>% select(n)
+deaths_pre1 <- paper_summary %>% filter(stat == "deaths_pre1") %>% select(n)
+mothersraw <- paper_summary %>% filter(stat == "mothers") %>% select(n) 
+mothers <- format(mothersraw$n, big.mark = ",")
+med_famsize <- paper_summary %>% filter(stat == "med_famsze") %>% select(n)
+mplaceraw <- paper_summary %>% filter(stat == "mplaces") %>% select(n)
+mplaceraw$n <- (mplaceraw$n/mothersraw)*100
+mplace <- format(round(mplaceraw$n, digits = 1), big.mark = ",")
+cplaceraw <- paper_summary %>% filter(stat == "cplaces") %>% select(n)
+cplaceraw$n <- (cplaceraw$n/allkidsraw)*100
+cplace <- format(round(cplaceraw$n, digits = 1), big.mark = ",")
+df5 <- paper_summary %>% filter(stat == "female") %>% select(n)
+female <- format(df5$n, big.mark = ",")
+femalepct <- (df5$n/cohortraw$n)*100
+cnotif <- t2 %>% filter(Stage == "Notification") %>% clean_names() %>% select(x0)
+cnotif$x0 <- cohortraw-cnotif$x0
+cnotif$x1 <- format(cnotif$x0, big.mark = ",")
+cinvest <- t2 %>% filter(Stage == "Investigation") %>% clean_names() %>% select(x0)
+cinvest$x0 <- cohortraw-cinvest$x0
+csubst <- t2 %>% filter(Stage == "Substantiation") %>% clean_names() %>% select(x0)
+csubst$x0 <- cohortraw-csubst$x0
+cplace <-  t2 %>% filter(Stage == "Placement") %>% clean_names() %>% select(x0)
+cplacen <- cohortraw-cplace$x0
+cplacen$n <- format(cplacen$n, big.mark = ",")
+investpct <- round((cinvest$x0/cnotif$x0)*100, digits = 1)
+substpct <- round((csubst$x0/cinvest$x0)*100, digits = 1)
+placepct <- round((cplace$x0/csubst$x0)*100, digits = 1)
+```
+
+```{r survstats, include=FALSE, echo = FALSE, warning= FALSE}
+survstats <- read_csv(here("3_descriptive_removals","output","survstats.csv"))
+bnotif <- survstats %>% filter(stat == "Born before" & stage == "Notification") %>% select(surv)
+bnotifup <- survstats %>% filter(stat == "Born before" & stage == "Notification") %>% select(upper)
+bnotiflow <- survstats %>% filter(stat == "Born before" & stage == "Notification") %>% select(lower)
+anotif <- survstats %>% filter(stat == "Born after" & stage == "Notification") %>% select(surv)
+anotifup <- survstats %>% filter(stat == "Born after" & stage == "Notification") %>% select(upper)
+anotiflow <- survstats %>% filter(stat == "Born after" & stage == "Notification") %>% select(lower)
+bplace <- survstats %>% filter(stat == "Born before" & stage == "Placement") %>% select(surv)
+bplaceup <- survstats %>% filter(stat == "Born before" & stage == "Placement") %>% select(upper)
+bplacelow <- survstats %>% filter(stat == "Born before" & stage == "Placement") %>% select(lower)
+aplace <- survstats %>% filter(stat == "Born after" & stage == "Placement") %>% select(surv)
+aplaceup <- survstats %>% filter(stat == "Born after" & stage == "Placement") %>% select(upper)
+aplacelow <- survstats %>% filter(stat == "Born after" & stage == "Placement") %>% select(lower)
+notif00 <- survstats %>% filter(stat == "2000-01" & stage == "Notification") %>% select(surv)
+notif12 <- survstats %>% filter(stat == "2012-13" & stage == "Notification") %>% select(surv)
+invest00 <- survstats %>% filter(stat == "2000-01" & stage == "Investigation") %>% select(surv)
+invest12 <- survstats %>% filter(stat == "2012-13" & stage == "Investigation") %>% select(surv)
+subst00 <- survstats %>% filter(stat == "2000-01" & stage == "Substantiation") %>% select(surv)
+subst12 <- survstats %>% filter(stat == "2012-13" & stage == "Substantiation") %>% select(surv)
+place00 <- survstats %>% filter(stat == "2000-01" & stage == "Placement") %>% select(surv)
+place12 <- survstats %>% filter(stat == "2012-13" & stage == "Placement") %>% select(surv)
+sibnotif <- t4 %>% filter(Stage == "Notification") %>% select(3)
+sibinvest <- t4 %>% filter(Stage == "Investigation") %>% select(3)
+sibsubst <- t4 %>% filter(Stage == "Substantiation") %>% select(3)
+sibplace <- t4 %>% filter(Stage == "Placement") %>% select(3)
+```
+
+## Abstract
+
+### Background {-}
+
+Reducing the over-representation of Aboriginal children in the child protection system is a key target for the Australian government. 
+
+### Objective {-}
+
+We aimed to provide more recent evidence on the population-level cumulative incidence of contacts for Aboriginal children with child protective services (CPS) in Western Australia (WA).
+
+### Participants and Setting {-}
+
+Linked administrative data was provided for WA CPS between 2000 and 2015 for 33,709 Aboriginal children born in WA between 2000 and 2013
+
+### Methods {-}
+
+Descriptive summaries and cumulative incidence estimates were used to examine changes in CPS contact trends over time and within sibling groups.
+
+### Results {-}
+
+There was an increase in early-childhood contacts for children born more recently, with 7.6% and 2.3% of children born in 2000-2001 having a notification and placement in out-of-home care by age one, respectively, compared to 15.1% and 4.3% of children born in 2012-2013. Among sibling groups where at least one sibling had a CPS contact, approximately half of children had their first contacts on the same date as another sibling. For children born after one of their siblings had been placed in out-of-home care, 31.9% had themselves been placed in out-of-home care by age one.
+
+### Conclusions {-}
+
+Multiple children tend to be placed into out-of-home care when at least one sibling is, which is likely to have a significant impact on families affected. The additional risk of placement also carries over to children born after the first removal in a sibling group, highlighting the need for further support to prevent future removals.
+
+## Introduction
+
+The over-representation of First Nations children in child protective services (CPS) statistics is a significant issue in countries with settler-colonial histories, including Canada [@fallon2021;@trocme2004;@turner2016], the United States of America [@lawler2012], and New Zealand [@cram2015; @nzchildren2016]. In Australia, while the majority of Australian Aboriginal and Torres Strait Islander (hereafter respectfully referred to as Aboriginal) children are never placed in out-of-home care by CPS, the over-representation of Aboriginal children in CPS statistics across Australia continues to be an issue for the families and communities affected as well as the state and territory governments responsible for managing CPS. Child protection systems across Australia are disproportionately placing Aboriginal children in out-of-home care [@familymatters2020;@davis2019]. In most Australian jurisdictions, the rate of placement in out-of-home care for Aboriginal children has been increasing steadily for the last ten years - a trend not observed for non-Aboriginal children - with a national rate of placement 11.5 times higher for Aboriginal children compared to non-Aboriginal children [@aihw2022]. These figures are inconsistent with the state and federal government goals of reducing the number of Aboriginal children in care [@ctgtarget; @babf2016].
+
+Analyses of state and territory population-level data, such as the annual rates of contact found in government reports [@aihw2022], can be used to track the impact of policy changes and progress toward achieving a reduction in the over-representation of Aboriginal children in case. By linking state CPS data to other administrative datasets, more detailed analyses of CPS contacts can be performed and help understand more nuanced dynamics of CPS statistics. For example, @falster2020 identified the cumulative incidence of contacts with stages of CPS and the kinds of substantiated maltreatment experienced by a cohort of children born in New South Wales; @segal2019 conducted a similar analysis for several birth cohorts in South Australia and identified that contact with CPS were occurring at younger ages for the successive cohorts; and @odonnell2010a, who examined socioeconomic, health, and geographical aspects of contacts with CPS in WA. These detailed analyses help inform policy and funding decisions at a state level by specifically quantifying different aspects of childhood maltreatment, such as when it tends to occur, the kinds of maltreatment are experienced, and the precursory factors that can lead to maltreatment. Analysing data on a more localised scale is also helpful for local CPS offices, Aboriginal Community-Controlled Health Organisations, and others, who work directly with communities affected by child removals, where broader analyses may not reflect their local situation. By understanding which factors are more important in each local context (for example, metropolitan versus regional communities), the service planning and staff training can be shaped around the local community's needs, and more targeted support required by families can be provided to make changes and prevent children being removed or working toward reunification.
+
+For WA, the continuing rise in the number of Aboriginal children in out-of-home care has partly been attributed to children entering care at younger ages and staying in care for longer [@bilson2017], with @odonnell2019 identifying that infants were the most likely age group to receive child protective services, highlighting the disparity between Aboriginal and non-Aboriginal infants at 157.6 versus 22.0 per 1,000 infants respectively. While the cumulative incidence of contacts for children born between 1990 and 1991 in Western Australia has been reported previously [@bilson2015], more contemporary data need to be examined. The most recent detailed analyses of WA CPS contacts examine data up to 2010 [@odonnell2019; @bilson2015]. More contemporary data are reported in Australian Institute of Health and Welfare reports, however these reports only provide a high-level analysis. Questions such as what ages are critical to intervene at and how the rate of contact has changed over time require a more detailed analysis of the data.
+
+In this article we describe the cumulative incidence of contacts with CPS for Aboriginal children born in WA between 2000 and 2013, with follow-up to 2015. This research was conducted as part of the Indigenous Child Removals (I-CaRe) project, an Aboriginal-led, mixed-methods research project. The goals of this paper were to provide an updated analysis of WA CPS data and provide quantitative evidence to complement findings from qualitative interviews [@jones2021] conducted with Aboriginal community members, kinship carers, and staff at Aboriginal community-controlled organisations (ACCOs).
+
+In presenting these data it is important to keep in mind the reality in which these data arise. The families of children who are removed by CPS do their best to avoid this outcome but are faced with the consequences of historic and ongoing colonisation [@familymatters2021], intergenerational trauma and disruptions in the passing on of parenting knowledge due to the Stolen Generations [@hreoc1997], systemic institutional racism [@tilbury2015], and culturally unsafe services [@familymatters2021]. These past and present factors also contribute to higher rates of poverty, overcrowded housing, and other aspects of socioeconomic disadvantage experienced by Aboriginal families; factors which in turn make their own contributions to the over-representation of Aboriginal children in child protection statistics across Australia [@familymatters2019;@healingfoundation2013]. With this in mind, we aimed to answer the questions:
+
+- What is the cumulative rate of contact with CPS in WA?
+- Is the age at first contact with CPS in WA changing over time?
+- How is the timing of contacts clustered within siblings?
+
+## Methods and data
+
+### Data sources and study population {-}
+
+For this study, the linked birth, death, and child protection records for all Aboriginal children born in WA between 2000 and 2013, and their siblings, were used. These data were linked and provided by the Western Australian Data Linkage Branch (WADLB), who use probabilistic matching to link records across datasets [@holman2008]. Child protection data provided by the Western Australian Department of Communities (WADoC) were available for 1989 to 2015. Birth and death records were obtained from the Midwives Notification System, and the Western Australian Registry of Births, Deaths and Marriages. Aboriginal children were identified by the WADLB using the Indigenous Status Flag, which is a method of classifying Aboriginal status based on a person's recorded Aboriginal status across multiple datasets [@christensen2014]. Aboriginal status for the cohort was further identified through the Indigenous Status Flag for their parents and grandparents, with previous research demonstrating this is an accurate way to identify Aboriginal status [@mcnamara2020]. 
+
+Stillbirths identified in the Midwives Notification System were excluded from the cohort.
+
+### Child protection outcomes {-}
+
+The date of the first recorded contact with CPS was used to define an event. Events for notifications, investigations, substantiations, and placements, were based on the recorded notification, investigation start, investigation end, and placement start dates respectively. Stages of CPS have been defined in detail by other authors (see @bilson2015), however we provide a brief definition of the sequential stages here:
+
+- Notification, where the WADoC is alerted about a concern for a child's safety or well-being.
+- Investigation, where the WADoC decides whether to investigate.
+- Substantiation, the outcome of an investigation is either not substantiated, substantiated with the likelihood of harm occurring, of substantiated actual harm.
+- Placement, where the child begins a care placement.
+
+### Analysis methods {-}
+
+First we counted the number of contacts, if any, the cohort had with CPS, to understand the overall scale and frequency of contacts. Results are presented in Table \@ref(tab:cpscontacts). Next we used survival analysis to examine the cumulative incidence of first contacts with CPS. For these analyses we do not consider the trajectories children may have through the child protection system nor multiple contacts at each stage. Follow-up time ended either at the age of 16 or the age at right-censoring, which occurred at the end of 2015 or their age at death if either occurred before the age of 16. Pre-natal contacts with CPS were counted as occurring at their date of birth. We divided the cohort into two-year birth cohorts to examine variation in the rate of contact over time. 
+
+We explored how contacts with CPS were clustered within maternal sibling groups in two ways. First, we sought to understand whether CPS were recording contacts for multiple siblings simultaneously or if contacts for individual siblings were occurring independently. To do this we first restricted the cohort to children with at least one maternal sibling (full or half), then compared the date of first contact for each sibling to the earliest date of contact in their sibling group, for each stage of the child protection system. Children born after the date of first contact in their sibling group were excluded from this analysis, see Figure \@ref(fig:flowdiag) for how these analysis sets were determined. Second, we sought to understand whether the risk of first contact with CPS was elevated for children born to mothers who already had another child with a CPS contact. To do this we used survival analysis to plot the cumulative incidence of the cohort's first contacts with CPS, plotting separate curves for children born before and after the date of first contact within their sibling group.
+
+For both sibling analyses, biological mother was used as the grouping unit, meaning full and maternal half-siblings of our cohort were included. This meant linking a further `r siblings` siblings who were born before 2000 or after 2013 to the `r cohort` children in our cohort. Biological mother was chosen as the grouping unit because every child could be linked to their mother by the WADLB, while fathers could only be linked if they were listed on a child's birth registration.
+
+Analysis was performed using R version 4.1.2 [@r], RStudio version 1.4.1106 [@rstudio]. The `survival` [@survival] and `survminer` [@survminer] packages were used for cumulative incidence analyses. Survival curves were estimated using Kaplan-Meier estimates [@kaplan1958] and plot as cumulative incidence curves, which the `survminer` package implements as $1-S(t)$ where $S(t)$ is the survival function. The resulting cumulative incidence curves tell us the proportion of children who would have had an event if we had been able to follow up all children until they were sixteen years old.
+
+Ethical approval for the Indigenous Child Removals project was given by the Western Australian Aboriginal Human Ethics Committee (943) and the Department of Health Human Research Ethics Committee (RGS 3496).
+
+## Results
+
+After excluding `r stillbirths` stillbirths, the cohort consisted of `r cohort` Aboriginal children. Of these children, `r deaths` died during the follow up period, with `r deaths_pre1` of these deaths occurring before the age of one. 
+
+### Contacts with the child protection system {-}
+
+```{r, include=FALSE}
+pcts <- t2 %>% 
+  clean_names() %>% 
+  mutate(
+    sum = x1+x2+x3+x4+x5+x6+x7+x8,
+    total = x0 + sum,
+    pct = round((sum/total)*100, digits = 1),
+    multi = x1+x2+x3+x4+x5+x6+x7+x8
+  )
+
+notifpct <- pcts %>% filter(stage == "Notification") %>% select(pct, sum)
+notifpct$nosum <- format(paper_summary$n[paper_summary$stat=="cohort"]-notifpct$sum, big.mark = ",")
+notifpct$sum <- format(notifpct$sum, big.mark = ",")
+investpct <- pcts %>% filter(stage == "Investigation") %>% select(pct, sum)
+investpct$nosum <- format(paper_summary$n[paper_summary$stat=="cohort"]-investpct$sum, big.mark = ",")
+investpct$sum <- format(investpct$sum, big.mark = ",")
+substpct <- pcts %>% filter(stage == "Substantiation") %>% select(pct, sum)
+substpct$nosum <- format(paper_summary$n[paper_summary$stat=="cohort"]-substpct$sum, big.mark = ",")
+substpct$sum <- format(substpct$sum, big.mark = ",")
+placepct <- pcts %>% filter(stage == "Placement") %>% select(pct, sum)
+placepct$nosum <- format(paper_summary$n[paper_summary$stat=="cohort"]-placepct$sum, big.mark = ",")
+placepct$sum <- format(placepct$sum, big.mark = ",")
+kidsn <- round(((cohortraw-cplace$x0)/allkidsraw)*100,digits = 1)
+
+multinumer <- pcts %>% filter(stage == "Placement") %>% mutate(twoplus = multi-x1) %>% select(twoplus)
+multinumer$twoplus <- format(multinumer$twoplus, big.mark = ",")
+
+multiplace <- pcts %>% filter(stage == "Placement") %>% 
+  mutate(
+    multipct = round(((multi-x1)/multi)*100, digits = 1)
+  ) %>% 
+  select(multipct)
+```
+
+Of the `r cohort` children in the cohort, `r 100-notifpct$pct`% (n = `r notifpct$nosum`) did not have a notification to CPS, `r 100-investpct$pct`% (n = `r investpct$nosum`) were never the subject of an investigation, `r 100-substpct$pct`% (n = `r substpct$nosum`) never had a substantiated case of maltreatment, and `r 100-placepct$pct`% (n = `r placepct$nosum`) never had a placement in out-of-home care. Of the `r placepct$pct`% (n = `r placepct$sum`) with at least one placement in out-of-home care, we found that it was common to have multiple different placements, with `r multiplace$multipct`% (n = `r multinumer$twoplus`) of the cohort having two or more placements by the end of follow-up. Table \@ref(tab:cpscontacts) presents the number of contacts each child had with CPS. For each stage of CPS, the majority of the cohort had no contact with CPS and the further through the stages we look the larger the 'no contact' group becomes.
+
+### Cumulative incidence of contacts with the child protection system {-}
+
+Figure \@ref(fig:all) presents the cumulative incidence for contacts with each stage of CPS. The sharp increase in contacts at age zero, which indicates both pre-birth and at-birth contacts, is apparent across all stages. The elevated rate of contact is maintained until around age one, at which point the rate of contact becomes steady for each stage, with the proportion of children with a contact at each stage increasing almost linearly. Similar to Table \@ref(tab:cpscontacts), each subsequent stage has a lower cumulative incidence of contacts.
+
+Figure \@ref(fig:years) builds on Figure \@ref(fig:all), by splitting the cohort into two-year birth cohorts and presenting the cumulative incidence for each stage of CPS. This allows us to examine how the rate of contact and proportion of contacts is changing over time. We see the same pattern as in Figure \@ref(fig:all), that the proportion of children in any cohort with a contact decreases for each subsequent stage. The main observation in Figure \@ref(fig:years), however, is CPS has an increasing rate of contact with children at younger ages, for cohorts born more recently - indicated by the steeper curves from birth.  For the 2000-2001 cohort, CPS had estimated rates of contact by age one of `r notif00`%, `r invest00`%, `r subst00`%, and `r place00`% for notifications, investigations, substantiations, and placements respectively. For the 2012-13 birth cohort, the corresponding rates of contact by age one were `r notif12`%, `r invest12`%, `r subst12`%, and `r place12`%. 
+
+### Child protection contacts within maternal groups {-}
+
+The `r cohort` children in the cohort and their `r siblings` siblings were born to `r mothers` mothers. Of the `r mothers` mothers, `r mplace`% had CPS place at least one of their children in out-of-home care, or by child this was `r kidsn`% of the `r allkids` children. Table \@ref(tab:motherchildren) presents the frequency of the sizes of maternal sibling groups; the majority (78.7%) of mothers of the cohort had more than one child between 1980 and 2015, meaning that the majority of children in the cohort had at least one other maternal sibling.
+
+Table \@ref(tab:mothercontact) summarises when children in the cohort had their first contact with CPS (if at all) relative to the date of first contact within their sibling group. The majority of children who were born by the date of first contact in their maternal sibling group had their first contact on the same date as at least one other sibling. In other words, multiple siblings are often notified to CPS on the same day, which leads to multiple siblings being investigated and removed together.
+
+Figure \@ref(fig:mothers) presents the cumulative incidence of first contacts for the `r cohort` children in the cohort, with separate curves for children born before and after the date of first contact within their maternal sibling group. For children who were born before date of their maternal group's first contact, the rate is steady, increasing relatively linearly from birth. For children born into sibling groups where a contact had already occurred, an estimated `r anotif`% (95% CI `r anotiflow`% to `r anotifup`%) had their first notification by age one, compared to `r bnotif`% (95% CI `r bnotiflow`% to `r bnotifup`%) of children born before the date their sibling group's first contact. For placements in out-of-home care by age one this was an estimated `r aplace`% (95% CI `r aplacelow`% to `r aplaceup`%) compared to `r bplace`% (95% CI `r bplacelow`% to `r bplaceup`%).
+
+## Discussion
+
+This study found the majority of the cohort never had a contact with CPS, with 63.3% never having a notification and 90.3% never having a formal placement in out-of-home care. The analysis of two-year birth cohorts indicated that contacts were occurring at a greater rate in earlier ages for children born in more recent years, with the proportion of infants being placed in out-of-home care at least once rising from `r place00`% for children born in 2000-01 to `r place12`% for children born in 2012-13. When examining contacts within maternal sibling groups, we found CPS was likely to have contact with multiple siblings simultaneously at each stage of the system. For children born before the date of first contact among their siblings, more than half had their first notification, investigation, substantiation, and placement on the same date as another sibling. Finally, compared to children who were born before the date of first CPS contact within their sibling group, children born into sibling groups where a contact had already occurred were more than five times more likely to have a notification and sixteen times more likely to be placed into out-of-home care by age one.
+
+The decreasing proportion of the cohort with a contact at each subsequent stage of CPS (Figure \@ref(fig:all)) is similar to findings from New South Wales [@falster2020], the Northern Territory [@guthridge2012], and South Australia [@segal2019]. This highlights the common challenge faced by child protection departments across Australia, of correctly identifying cases of child maltreatment while minimising the number of families who are investigated but no substantiation is made. The trend of CPS having a higher rate of contact at younger ages for Aboriginal children born more recently (Figure \@ref(fig:years)) mirrors the findings of @delfabbro2010 and @segal2019, who both reported the same trends using South Australian CPS data. One potential explanation for the higher proportion of Aboriginal children with child protection contact before age one in more recent birth cohorts is the use of pre-birth planning by the WADoC. The WADoC attempts to work with pregnant people with children previously removed in order to prevent the removal of further children. During our observation period, the pool of mothers who had a child previously removed, who were then engaged by pre-birth planning services, increases, which - in turn – means the number of opportunities for children to be removed at younger ages increased, due to the increased rate of contact with CPS. This increase in placements at younger ages, despite the engagement of pre-birth planning services (which may not be culturally safe), reflects the difficulty in resolving the complex situations arising from intergenerational trauma, poverty, inadequate housing, substance abuse, and mental and physical ill-health, in the short few months' gestation between the engagement of services and birth of the child.
+
+A consequence of placements occurring at younger ages is the longer potential time spent in out-of-home care. Given that placements must end at the age of 18, the younger a child is placed, the more time they may spend in these placements. Seeing an increase in the rate of placement at younger ages is likely one cause of the increasing rate of Aboriginal children in out-of-home care, such as that seen in South Australia, where the number of children in out-of-home care rose from 3.5 per 1,000 Aboriginal children in 2004 to 9.5 per 1,000 in 2017 [@segal2019], and in the Northern Territory, where the rate of substantiated maltreatment rose from 9.3 per 1,000 Aboriginal children in 1999 to 2002 to 34.2 per 1,000 Aboriginal children in 2007 to 2010 [@guthridge2012].
+
+Our finding, that CPS are likely to record contacts with multiple siblings simultaneously, is expected when considering that the WADoC works with families rather than individual children. When one sibling in a family is considered to be at risk of child maltreatment it is more likely that other siblings will also be considered at risk. It is important to also consider the emotional impact on parents who have multiple or all of their children removed simultaneously. In the I-CaRe qualitative interviews, kinship carers commented on the trauma experienced by mothers and families caused by children being taken [@jones2021]. Concerns about having their children removed may prevent mothers and families from accessing services, as these services, such as healthcare, schooling, childcare, or family violence support, are also contact points for child protective services. Similarly, families that experience the emotional trauma caused by child removal, which may have originated from a notification from a health or education professional, or from seeking support in instances of family violence (which itself is considered a form of emotional abuse), may lead them to engage less with services they need in the future. These dynamics of hesitancy to access services, in particular reaching out for support only to have their children removed, have been documented in qualitative interviews with Aboriginal parents [@newton2020; @ivec2012].
+
+The increased risk of contact for children who are born to a mother who already has a child with a CPS contact reflects the findings of @jenkins2018, who report hazard ratios of 1.35 and 3.16, for notifications and interventions respectively, for children from a family with ongoing CPS interventions compared to children from families with no ongoing CPS intervention. Our findings are also relevant to the fears expressed by kinship carers in the qualitative interviews, that once a child has been removed their parents go on a "watch list", are "written off", and denied the opportunity to change [@jones2021]. The WADoC does, however, engage in pre-birth planning [@dcpprebirth] for families who are notified to child protection during pregnancy to address safety concerns and this can commence as early as 20 weeks of pregnancy. As mentioned previously, however, the situations faced by pregnant people, such as inadequate housing and poverty, may take longer than the pre-birth consultation period to address. Therefore, for some children pre-birth planning could be a pathway to ensuring a child is living in a safe environment once they are born, where the unsafe environment could not be sufficiently addressed. The drastic difference in the rate of removal for children born to mothers with a prior child removal, despite the efforts of pre-birth planning services, again raises concerns about parents avoiding accessing support they may need due to fears over their children ultimately being removed anyway. 
+
+### Strengths and limitations {-}
+
+Due to jurisdictional limitations of the child protection data we were unable to follow up children who move out of WA. This means any children who move interstate would have been right-censored at their age at the end of 2015 instead of the age at which they moved interstate. Similarly, Aboriginal children who were born outside of WA then moved into the state are not included in the analyses.
+
+The data provided by WADoC is inclusive of formal placements, and this provided sufficient precision to explore trends in formal placements over time. However, there is no administrative dataset recording the diverse reality of informal placements which are not a direct result of legislated processes. By definition, estimated rates of formal placements are under-estimates the total out-of-home care placements and the total burden on the community. Informal placements will continue to occur as families avoid contact with CPS due to fears of child removal, with informal placements also being beneficial for maintaining connection to family and community. Informal placements fall under the cultural expectations for extended family to raise children, however there is a need to support kinship carers who take on this role as the children they care for may have complex needs and the carers themselves may also be dealing with their own intergenerational trauma [@kickett2019].
+
+Analysing contacts for children by grouping according to biological mother does not capture the reality of living arrangements or family structures. As acknowledged in @cuccaro2021, identifying family units through maternal birth records only introduces bias in the identification of family units. For example, unidentified paternal half-siblings bias family units to be smaller and leaves within-family risk unaccounted for in these half-siblings. Further to this, the extended family and wider community role in raising Aboriginal children [@krakouer2018] is not represented in the data and therefore not considered in the analyses.
+
+### Conclusion {-}
+
+In this analysis we present three key findings. First, that the rate of first contact with CPS is occurring at younger ages for Aboriginal children born more recently. Second, contacts with CPS often occur for multiple siblings simultaneously. Finally, children born to mothers who already have another child with a contact are much more likely to have contact with CPS. Our findings illustrate that elevated risk of subsequent placement exists despite pre-birth planning. While we cannot evaluate the effect of pre-birth planning versus no pre-birth planning, the program on its own is insufficient to reduce the risk ratio of subsequent placement to one; earlier intervention may be required.
+
+While our findings highlight important aspects of how WADoC CPS contacts Aboriginal children born in WA, there have been several important changes to the legislative landscape in WA since 2015. In the 2021 amendment of the Child and Community Services Act [@ccsa2021], section 81 was amended to require consultation of three Aboriginal voices, including a family member, when making a decision about placing an Aboriginal child in out-of-home care. Prior to the amendment the requirement was to consult "at least one" Aboriginal person or agency. The requirement of multiple Aboriginal voices being involved in the decision making process may result in better advocacy for Aboriginal families and reduce the rate of removal, however an examination of data in the coming years will be needed to assess the impact. Strong Aboriginal leadership is also needed, such as national bodies like SNAICC and local organisations like Yorganup, to have input in these decision making processes and to keep legislative and policy reform on track to reduce the rate of over-representation.
+
+Western Australian policy has also shifted toward empowering Aboriginal voices in the child and family support sector, with a 2022 pilot program [@wagov2022] providing Aboriginal Representative Organisations more oversight in placements of Aboriginal children in Armadale, WA. Further, the WA government's 2021 Aboriginal Procurement Policy [@app2021], which builds on the previous 2018 policy to build Aboriginal-led capacity in multiple sectors, and the Aboriginal Family Led Decision Making (AFLDM) process [@afldm2021] both aiming to reduce the over-representation of Aboriginal children in CPS. The WADoC's pilot of AFLDM is similar to policies adopted in other Australian states, including Queensland [@qldafldm], New South Wales [@nswafldm2020], South Australia [@saafldm2021], and Victoria [@vicafldm2019]. AFLDM as a policy intends to give a greater say to Aboriginal families and communities in the management of child protection cases and incorporate traditional Aboriginal approaches in working toward addressing the causes of maltreatment concerns. A review of an AFLDM trial in Queensland [@snaiccafldm] noted that when the policy worked, it created a culturally safe space that empowered families to speak up and be more engaged, but to work the implementation had to be right - cases where AFLDM did not have the outcomes expected did not "happen in a truly Aboriginal and/or Torres Strait Islander way". An important component in being 'done right' was CPS staff being supportive of AFLDM and relinquishing power over the decision making process. A review of AFLDM in Victoria also found staff were important, however the review found widespread non-compliance with adhering to AFLDM processes, identifying vacancies in convenor roles and a lack of training, understanding, and clarity around the roles involved with ensuring AFLDM occurred. Given these findings in other states, the pilot of AFLDM in WA has the potential to be a success and improve engagement by families in the decision making process and outcomes for children.
+
+## Acknowledgements
+
+The primary author, Benjamin Harrap, is not an Aboriginal or Torres Strait Islander person. The I-CaRe-WA study is an Aboriginal-led study which engages Aboriginal voices through its leadership and through study advisory, policy, and community reference groups, seeking feedback on ongoing and future research. The authors would like to thank the members of these groups for their feedback and contributions to the formation of this article.
+
+The R packages RMarkdown [@rmarkdown], `tidyverse` [@tidyverse], `janitor` [@janitor], `lubridate` [@lubridate], `bookdown` [@bookdown], `scales` [@scales], `DiagrammeR` [@diagrammer], `knitr` [@knitr], and `kableExtra` [@kableExtra] were used in the writing of this article.
+
+The authors wish to thank the staff at the Western Australian Data Linkage Branch and the data custodians, the Western Australian Department of Health, the Western Australian Registry of Births, Deaths and Marriages, and Western Australian Department of Communities. The information presented does not reflect the views of the Data Linkage Branch or any of the data custodians.
+
+## Funding
+
+The project was funded by NHMRC Project Grant 1162968.
+
+<!-- ## References -->
+
+<!-- <div id="refs"></div> -->
+
+## Tables and Figures
+
+```{r cpscontacts, echo=FALSE, warning=FALSE}
+kable(t2npct, 
+      booktabs = T, 
+      caption = "Number and percent of Aboriginal children born in Western Australia between 2000 and 2013 (N = 33,709) with zero to eight or more contacts with the child protection system between 2000 and 2015.",
+      align = "c",
+      linesep = "",
+      col.names = NULL) %>%
+  kable_styling(latex_options = "HOLD_position") %>% 
+  add_header_above(
+    c("Number of contacts", "Notification" = 2, "Investigation" = 2, "Substantiation" = 2, "Placement" = 2),
+    bold = TRUE)
+```
+
+```{r motherchildren, echo=FALSE, warning=FALSE}
+t3 <- t3 %>% 
+  add_row(
+    `Number of children` = "Total",
+    N = sum(t3$N),
+    Percent = "100%"
+  )
+
+kable(t3, 
+      booktabs = T, 
+      caption = "Number of children born between 1980 and 2015, to mothers of the cohort, including the cohort (Aboriginal children born 2000 to 2013) and children not in the cohort (both Aboriginal and non-Aboriginal children born 1980 to 1999 and 2014 to 2015.",
+      col.names = c("Maternal sibling group size","N","%"),
+      linesep = "",
+      align = "c") %>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+```{r mothercontact, echo=FALSE, warning=FALSE}
+kable(
+  t4,
+  booktabs = T,
+  align = "c",
+  col.names = c("Stage",
+                "N",
+                "%",
+                "N",
+                "%",
+                "N",
+                "%"),
+  caption = "Timing of first contact with each stage of child protective services relative to the earliest recorded contact within a sibling group for contacts occurring between 2000 and 2015, for Aboriginal children born in WA between 2000 and 2013."
+) %>%
+  kable_styling(latex_options = "HOLD_position") %>%
+  add_header_above(c(
+    "",
+    "Same as sibling\ngroup's first contact" = 2,
+    "After sibling\ngroup's first contact" = 2,
+    "No recorded contact\n for child" = 2
+  ))
+```
+
+```{r flowdiag, echo = FALSE, fig.cap="Flow diagram for analysis sets for maternal sibling group analyses."}
+include_graphics(here("3_descriptive_removals","img","flowdiag.pdf"))
+```
+
+```{r all, echo = FALSE, fig.cap="Cumulative incidence estimates for first time child protection system contacts, between 2000 and 2015, among Aboriginal children born in Western Australia, 2000-2013."}
+include_graphics(here("3_descriptive_removals","img","interactions_all.pdf"))
+```
+
+```{r years, echo = FALSE, fig.cap="Cumulative incidence estimates with 95% confidence intervals for first child protection system contacts, between 2000 and 2015, by birth-year cohorts, among Aboriginal children born in Western Australia, 2000-2013."}
+include_graphics(here("3_descriptive_removals","img","interactions_year_with_CI.pdf"))
+```
+
+```{r mothers, echo = FALSE, fig.cap="Cumulative incidence estimates with 95% confidence intervals for first contact with the child protection system by whether a child was born to a maternal group with a pre-existing contact, contacts occurring between 2000 and 2015 among Aboriginal children born in Western Australia, 2000-2013."}
+include_graphics(here("3_descriptive_removals","img","contacts_alive_panel.pdf"))
+```

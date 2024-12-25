@@ -1,0 +1,273 @@
+---
+output:   
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+bibliography: "../references.bib"
+title: "Mental and neurodevelopmental health needs of Aboriginal children with experience of out-of-home care: a Western Australian data-linkage study"
+author:
+  - Benjamin Harrap
+  - Alison Gibberd
+  - Melissa O'Donnell
+  - Jocelyn Jones
+  - Richard Chenhall
+  - Bridgette McNamara
+  - Koen Simons
+  - Sandra Eades
+link-citations: yes
+csl: "../vancouver-superscript.csl"
+---
+
+```{r, include=FALSE, echo = FALSE, warning= FALSE}
+library(tidyverse)
+library(kableExtra)
+library(knitr)
+library(janitor)
+here::i_am("4_health_profile/mental_neurodev_health.Rmd")
+library(here)
+
+# Read in data for the tables later
+demog <- read_csv(here("4_health_profile","output","demographics.csv")) %>% 
+  mutate(
+    Group = case_when(
+      stat == "ra_sa211" & Group == "1" ~ "Major Cities",
+      stat == "ra_sa211" & Group == "2" ~ "Inner Regional",
+      stat == "ra_sa211" & Group == "3" ~ "Outer Regional",
+      stat == "ra_sa211" & Group == "4" ~ "Remote",
+      stat == "ra_sa211" & Group == "5" ~ "Very Remote",
+      stat == "sa2_advan11_dec_sta" & Group == "1" ~ "1 - Greater disadvantage",
+      stat == "sa2_advan11_dec_sta" & Group == "10" ~ "10 - Greater advantage",
+      .default = Group
+    )
+  )
+mhid <- read_csv(here("4_health_profile","output","id_mh_conditions.csv")) |> 
+  mutate(
+    across(c(2:5),
+           ~ str_replace(.," \\(","% \\(")),
+    condition = ifelse(condition == "Hyperkinetic","ADHD",condition)
+  )
+
+paper_summary <- read_csv(here("4_health_profile","output","paper_summary.csv"))
+criteria <- read_csv(here("4_health_profile","output","coding.csv"))
+
+options(knitr.kable.NA = ' ')
+```
+
+## Abstract
+
+### Objective {-}
+
+To identify additional mental and neurodevelopmental health needs of Aboriginal children born in Western Australia (WA), who are placed in out-of-home care (OOHC), relative to Aboriginal children born in WA who were not placed.
+
+### Methods {-}
+
+Data-linkage of hospitalisations, health registries, and child protective services (CPS) data for all Aboriginal children born in WA between 2000 and 2013 was used. Children placed in OOHC between 2000 and 2019 were matched to children never placed and prevalence and cumulative incidence estimates of mental and neurodevelopmental health conditions were compared.
+
+### Results {-}
+
+Children placed in OOHC had a three-times greater prevalence of mental and neurodevelopmental health conditions generally. The prevalence of foetal alcohol spectrum disorder was ten times higher and post-traumatic stress disorder was seven times higher for those placed in OOHC. Cumulative incidence plots highlighted for different conditions the ages at which the rate of diagnosis diverges between the two groups.
+
+### Conclusions {-}
+
+Children placed in OOHC had greater mental and neurodevelopmental health needs generally when compared to children never placed in OOHC.
+
+### Implications for public health {-}
+
+CPS must ensure culturally safe, comprehensive, wrap-around services for Aboriginal children and their families are provided. Approaches should build on the strength of children, families, and culture and avoid stigmatising children and their parents.
+
+## Keywords
+
+Mental health, neurodevelopmental health, intellectual disability, Aboriginal children, child protection, out-of-home care
+
+## Introduction
+
+Children who are placed in out-of-home care (OOHC) often have increased physical and mental health needs compared to children who are not placed in OOHC. This has been observed in several countries including the USA [@deutsch2015;@szilagyi2015], Canada [@marquis2009], and the UK [@ford2007;@rodrigues2004]. In Australia, the health needs of children generally are well documented and frequently reported in federal [@aihw2020c] and state [@vichealth;@healthstatsnsw] government reports and national surveys [@aifs2019;@wachildhealth]. Similarly, rates of contact with child protective services (CPS) are routinely reported at a population level, with the Australian Institute of Health and Welfare (AIHW) and the Secretariat of National Aboriginal and Islander Child Care reporting state- and national-level trends in CPS contacts [@aihw2022;@familymatters2023]. 
+
+However, the intersection of these two topics - the health needs of children in OOHC - are not commonly reported and there is little published that details health needs of non-Indigenous or Aboriginal and Torres Strait Islander (hereafter referred to as Aboriginal) children in OOHC in Australia [@webster2016]. The few studies in this area are predominantly based on health assessments, service usage, and specialist referrals provided upon placement into OOHC. Reports from hospitals in Brisbane [@kaltner2011], Bundaberg [@arora2014], Melbourne [@mclean2019], and Sydney [@nathanson2007], found the majority of children tended to have multiple health conditions and specialist referrals. These children were commonly referred for speech pathology (with the percent of children with a referral ranging from 11 [@arora2014] to 41 [@nathanson2007] percent) and counselling and mental health (15 [@arora2014] to 46 [@mclean2019] percent), among many other health needs. The reported proportions vary considerably across these studies, making it difficult to draw conclusions about health needs at a population-level. 
+
+Data linkages are a powerful way to use existing service-level data to gain insight into the population-level health needs of specific groups. Only a handful of Australian studies have utilised data linkage to examine health data for children in OOHC. McLean et al. [@mclean2022] focused on service usage within the first year of entry into OOHC in Victoria and comparing Aboriginal and Torres Strait Islander children to non-Indigenous children, noting almost identical levels of service usage. Pilkington et al. [@pilkington2019] compared the developmental profile of South Australian children with at least one placement in OOHC to those with no placements, noting children placed in OOHC were three times more likely to be classified as developmentally vulnerable at age 5.
+
+Given the over-representation of Aboriginal children in OOHC and inequitable health burden experienced by Aboriginal people generally [@ctgreport2020], a consequence of historic and ongoing colonisation [@familymatters2021;@hreoc1997;@tilbury2015], it is vitally important to understand the scale of the health needs of Aboriginal children who are placed into OOHC by CPS. Three studies report on the risk of substantiated maltreatment for particular health conditions, finding an increased risk for children born in the Northern Territory with moderate to severe hearing impairment [@he2020] and an increased risk of contact with CPS for children born in Western Australia with intellectual disability, cerebral palsy, and other birth defects [@odonnell2010a;@odonnell2019]. Three further studies report more broadly on the health of Aboriginal children in OOHC, by reviewing health screening data for one Aboriginal Health Service in New South Wales [@raman2011;@raman2017] and one in Victoria [@shmerling2020], with each study including approximately 100 children. The health needs found in all three studies were consistent, and similar to those reported previously [@kaltner2011;@arora2014;@nathanson2007] - dentistry (19 to 40 percent), speech pathology (36 to 81 percent), and hearing impairment (37 to 44 percent). Additionally, visual problems were prevalent in all three studies (19 to 34 percent) with the Victorian study also finding respiratory and mental health needs in around half of the children screened [@shmerling2020].
+
+The studies which examine the health of Aboriginal children in the context of CPS have either had a large sample but only considered health as a risk factor for CPS involvement or considered a range of health needs but in a limited number of children. Given the lack of population-level statistics covering the intersection of child health and OOHC placements generally, and the importance of supporting Aboriginal children to grow up strong and healthy, we aimed to complete a population-level analysis that quantifies the mental and neurodevelopmental health needs of Aboriginal children in the context of placements in OOHC using linked Western Australian datasets.
+
+The present research was conducted as part of the Indigenous Child Removals Western Australia (I-CaRe WA) study, which is an Aboriginal-led, mixed-methods study exploring the views and experiences of both family and Aboriginal foster carers of Aboriginal children in OOHC and healthcare workers providing services to these children; connecting this with population-level, linked administrative data to understand the health needs of Aboriginal children placed in OOHC. The quantitative analysis presented here is guided by findings from qualitative interviews and conversations with the study's community reference group, where concern was raised on the neurodevelopmental and mental health needs of Aboriginal children in care. 
+
+Our primary objective for the present study was to use data linkage to identify neurodevelopmental and mental health needs of Aboriginal children born in Western Australia who are placed in OOHC, and to understand what additional health needs they have relative to Aboriginal children generally. Our secondary objective was to understand whether Aboriginal children first placed in OOHC before the age of one had differing health needs to Aboriginal children first placed on or after the age of one, as our previous research indicates that the rate of first placement in OOHC is higher for Aboriginal children before the age of one than after [@harrap2023], and these children are also more likely to be premature, have low birthweight, and have developmental concerns [@lima2023].
+
+## Methods and data
+
+### Data sources and study population {-}
+
+The study population consisted of all Aboriginal children born in Western Australia between 2000 and 2013. Records covering 2000 to 2019 were linked by Data Linkage Services Western Australian (DLSWA), who use probabilistic matching to link records across datasets [@holman2008]. Child protection data for 2000 to 2019 were provided by the Western Australian Department of Communities (WADoC) for children whose first recorded contact occurred before July 2015. Birth and death records were obtained from the Midwives Notification System, Birth Registrations, and Death Registrations. Stillborn children identified in the Midwives Notification System were excluded.
+
+Aboriginal children were identified using a two-step process. First, DLSWA provide the Indigenous Status Flag, which determines Indigenous status by considering an individual's Indigenous status across datasets [@christensen2014]. Next, we used family linkages to further identify children whose parents or grandparents were Aboriginal [@mcnamara2020].
+
+Health conditions were identified using the Hospital Morbidity Data System (HMDS), the Mental Health Information System (MHIS), WA Register of Developmental Abnormalities - Birth Defects (WARDA-BD), WA Register of Developmental Abnormalities - Cerebral Palsy (WARDA-CP), and the Intellectual Disability Exploring Answers (IDEA) datasets. IDEA is operated by the Telethon Kids Institute and contains information on all children born in WA identified as having an intellectual disability. WARDA-BD and WARDA-CP are state-wide, population-level surveillance systems that monitor all births in the state. The MHIS collects public and private inpatient episodes and public outpatient episodes in WA.
+
+### Classification of conditions {-}
+
+The International Classification of Disease 10th edition, Australian Modification, was used to classify conditions for the HMDS dataset. The MHIS, WARDA, and IDEA datasets were incorporated to improve identification [@bourke2018] of intellectual disability, Down syndrome, autism, foetal alcohol spectrum disorder (FASD), other chromosomal abnormalities related to cognitive impairment or neurodevelopmental disability, learning disabilities, and developmental delay. The MHIS dataset was used in conjunction with the HMDS dataset to identify mental ill-health. Table S1 in the supplementary materials details the criteria used.
+
+### Analysis methods {-}
+
+For our primary objective, children who did not have any recorded placements in out-of-home care between 2000 and 2019 were categorised as 'never placed' and those with at least one recorded placement were categorised as 'ever placed'. We purposely identify these groups as those with and without a *recorded* placement, as some children may be informally in OOHC, such as living with a grandparent - a common arrangement but not a result of the legal or administrative processes of the child protection system and therefore is not recorded in administrative data. For our secondary objective, we further classified ever placed children into those that first were placed in OOHC before the age of one (the 'pre 1-year' group) and children that were placed in OOHC on or after the age of one (the 'post 1-year' group).
+
+Matching was used to create two matched cohorts, matching ever placed children to never placed children, and the pre 1-year group to the post 1-year group. Matching was implemented via the `MatchIt` package [@matchit] for R, using exact matching on birth year, the 2011 state-level Index of Relative Socio-economic Advantage and Disadvantage decile at the Statistical Area 2 level (IRSAD [@seifa]), and Remoteness Area [@remotenessarea]. Remoteness area and socio-economic status were based on the child's place of residence at birth. Birth year was used as a matching factor for two reasons, first to ensure follow-up time was comparable for the matched cohorts, as some conditions are not diagnosed until later in childhood, and second, previous research indicates that Aboriginal children born in WA in more recent years were placed in OOHC at younger ages [@harrap2023]. For the ever versus never placed matched cohort we used 1:2 matching respectively, for the pre 1-year versus post 1-year matching we did not impose restrictions on the ratio of matches.
+
+Prevalence was estimated using the *propCI* function from the `prevalence` package [@prevalence]. Due to anticipated low prevalence estimates, 95% confidence intervals were calculated using the Clopper-Pearson method [@clopper1934;@tobi2005]. The cumulative incidence of mental and neurodevelopmental health conditions was estimated using Kaplan-Meier estimates [@kaplan1958; @survival; @survminer] and plot as cumulative incidence curves, using the `survminer` R package. Analysis was performed using R version 4.0.5 [@r] via RStudio [@rstudio]. 
+
+Ethical approval for the I-CaRe WA project was given by the Western Australian Aboriginal Human Ethics Committee (943) and the Department of Health Human Research Ethics Committee (RGS 3496).
+
+## Results
+
+```{r, echo = F, warning = F, message = F}
+totcoh <- format(paper_summary$n[paper_summary$stat=="totcohort"], big.mark = ",")
+matchcoh <- format(paper_summary$n[paper_summary$stat=="matchedcohort"], big.mark = ",")
+matchno <- format(paper_summary$n[paper_summary$stat=="matchednoplace"], big.mark = ",")
+matchyes <- format(paper_summary$n[paper_summary$stat=="matchedplace"], big.mark = ",")
+matchprepost <- format(paper_summary$n[paper_summary$stat=="matchedcohortprepost"], big.mark = ",")
+matchpre <- format(paper_summary$n[paper_summary$stat=="pre"], big.mark = ",")
+matchpost <- format(paper_summary$n[paper_summary$stat=="post"], big.mark = ",")
+
+# Set the headers for the tables
+h1_1 <- "Condition"
+h1_2 <- paste0("Never placed,\nn = ",matchno) 
+h1_3 <- paste0("Ever placed,\nn = ",matchyes)
+h1_4 <- paste0("Pre 1-year,\nn = ",matchpre)
+h1_5 <- paste0("Post 1-year,\nn = ",matchpost)
+h1 <- c(
+  h1_1 = 1,
+  h1_2 = 1,
+  h1_3 = 1,
+  h1_4 = 1,
+  h1_5 = 1
+)
+names(h1) <- c(h1_1,h1_2,h1_3,h1_4,h1_5)
+
+h2_1 <- " "
+h2_2 <- paste0("Ever vs. never matching,\nN = ",matchcoh)
+h2_3 <- paste0("Pre vs. post 1-year matching,\nN = ",matchprepost)
+h2 <- c(h2_1 = 1, h2_2 = 2, h2_3 = 2)
+names(h2) <- c(" ", h2_2, h2_3)
+
+condition <- function(cond) {
+  mhid %>%
+    filter(condition == cond) %>%
+    mutate(across(c(2:5),
+                  ~ as.numeric(str_remove(
+                    str_extract(str_extract(., "\\[\\d+.?\\d?"), "\\d+.?\\d?"), "\\%"
+                  )))) %>%
+    clean_names() %>%
+    rename_with( ~ gsub("\\_[a-z0-9]+", "", .x))
+}
+
+anyid <- condition("Any ID/DD/CA")
+fasd <- condition("FASD")
+anymh <- condition("Any MH")
+ptsd <- condition("PTSD")
+adjust <- condition("Adjustment")
+hyper <- condition("ADHD")
+```
+
+Of the original `r totcoh` children in the cohort, a total of `r matchcoh` children were matched for the ever vs. never placed comparison, matching `r matchyes` ever placed to `r matchno` never placed children. For the comparison of pre 1-year and post 1-year groups, a total of `r matchprepost` were matched, with `r matchpre` from the pre 1-year group matched to `r matchpost` from the post 1-year group. A comparison of the raw values and standardised mean differences for the variables used in the matching processes are presented in Supplementary Figure S1. Of the 700 possible combinations of the matching variables, only 389 existed for the ever vs. never matching and 282 for the pre 1-year vs. post 1-year matching, which enabled a high matching rate for the pre 1-year vs. post 1-year groups despite the limited sample size.
+
+Table \@ref(tab:demog) presents the demographic characteristics of both matched cohorts. The proportion of children recorded with a low birthweight and gestational age was approximately twice as high for children ever placed compared to never placed, and approximately 50% higher for children in the pre 1-year group compared to the post 1-year group. Never placed children were more likely to have no hospital admissions, however for children with any hospital admission the most common number of admissions was one to five across all the groups.
+
+Table \@ref(tab:mhid) presents the prevalence estimates for mental and neurodevelopmental health conditions for both of the matched cohorts. When considering any kind of intellectual disability, developmental delay, or chromosomal abnormality, the prevalence was approximately three times higher for ever placed children (`r anyid$any`%) compared to never placed children (`r anyid$no`%). For the pre 1-year group the prevalence of these conditions (`r anyid$pre`%) was almost twice as high as for the post 1-year group (`r anyid$post`%). The prevalence of FASD was markedly different between the groups, being approximately ten times higher for ever placed children (`r fasd$any`%) compared to never placed children (`r fasd$no`%) and almost three times higher in in the pre 1-year group (`r fasd$pre`%) compared to the post 1-year group (`r fasd$post`%). 
+
+The prevalence of several mental health conditions was also higher for children placed in OOHC. Overall, the prevalence of any mental health condition was three times higher for ever placed children (`r anymh$any`%) compared to never placed children (`r anymh$no`%) and comparable for the pre and post 1-year groups. For the specific mental health conditions we considered, only depression (a condition not usually diagnosed until late childhood or adulthood) had a comparable prevalence across all matched cohorts at around one percent. The largest difference in prevalence was for post-traumatic stress disorder and ADHD, which were more prevalent for ever placed children (`r ptsd$any`% and `r hyper$any`% respectively) than for never placed children (`r ptsd$no`% and `r hyper$no`% respectively). While ADHD had a comparable prevalence for the pre and post 1-year groups, PTSD was twice as prevalent for ever placed children (`r ptsd$post`%) compared to never placed children (`r ptsd$pre`%). Adjustment disorders were three times more prevalent for ever placed children (`r adjust$any`%) compared to never placed children (`r adjust$no`%).
+
+Given the increased prevalence of FASD, developmental delay, anxiety, and PTSD among ever placed children, we examined the cumulative incidence of these conditions to understand at what ages they tended to be first identified in the datasets (Figure \@ref(fig:cuminc)). For FASD, the cumulative incidence increased rapidly from birth for ever placed children, plateauing around age four. The trajectory for developmental delay is comparable between the two groups up until age two, at which ever placed children had a greater rate of diagnosis. For both PTSD and anxiety, diagnoses began occurring for both groups around age eight, with PTSD diagnoses occurring at a consistently greater rate for ever placed children, while anxiety diagnoses spiked at age 14 for ever placed children.
+
+## Discussion
+
+Our study is the first to use data linkage to examine the prevalence of neurodevelopmental and mental health conditions for Aboriginal children born in Western Australia who are placed in OOHC. The prevalence of neurodevelopmental and mental health conditions generally was approximately three times greater compared to never placed Aboriginal children. The prevalence estimates generally were lower than reported for children in OOHC in Australia [@mclean2022;@webster2016] and overseas [@meryl2023], which may reflect aspects of the data collections used, including their scope, collection practices, and systematic differences in service usage. In terms of the cumulative incidence, a large portion of FASD diagnoses occurred before age one for ever placed children. For both never placed and ever placed children, the cumulative incidence of anxiety was similar, with diagnoses starting to occur around ages eight to ten. However, first diagnosis of PTSD occurred at a much younger age for ever placed children with the earliest diagnosis around age five and the cumulative incidence rapidly diverging from that of never placed children, highlighting the importance of trauma-informed approaches when supporting children placed in OOHC regardless of whether trauma is a consequence of maltreatment, removal, or both.
+
+While we cannot determine whether this increased prevalence of mental health conditions is a precursory factor to, or consequence of, maltreatment or placement into OOHC, given a condition may develop well before a diagnosis recorded in an administrative dataset, a preventative approach is important in either situation. Providing culturally safe support to Aboriginal families at risk of CPS involvement and child removal and supporting them in raising their children and maintaining their connection to culture is critically important. By culturally safe support, we mean that services incorporate the individual's cultural context, acknowledging that Aboriginal communities do not have one homogeneous culture; the service design and staff recognise culture is a protective factor; respect the holistic context of an individual including their family, kinship, and community; and avoid stigmatising individuals and perpetuating harms caused by systems designed from settler perspectives. 
+
+The increased neurodevelopmental and mental health needs of children in OOHC also highlights the importance of health screening, appropriate referrals, and service delivery. Upon entering OOHC, WA CPS assesses the child's healthcare and other needs [@cpmhealthcare;@cpmneeds], aiming to ensure that children receive health checks and timely referrals through the Rapid Response program [@cpmrapres], to the appropriate specialists and services to meet their needs. The differences observed in the cumulative incidence of first diagnosis for PTSD, FASD, and developmental delay suggest that Aboriginal children with CPS involvement should be screened at an earlier age in order to identify and support their health needs. For children with neurodevelopmental conditions, assessment and diagnosis is vitally important as it enables children and their carers to access support services like the National Disability Insurance Scheme which includes financial and professional support. 
+
+Resourcing is also vital for service delivery. The consistent evidence that children entering OOHC often have a multitude of healthcare needs requiring multiple referrals to different specialists [@arora2014;@kaltner2011;@mclean2019;@nathanson2007] highlights the need for expanded funding to cover the time required to make and follow up on multiple specialist referrals for each child. Beyond funding, the healthcare system's capacity is also an issue. As part of the WA Government's ongoing Parliamentary Inquiry into Child Development Services, the Aboriginal Health Council of Western Australia's submission [@ahcwa2022] details paediatric referral wait times that consistently exceed 12 months, a difficulty compounded in regional communities where specialists may only visit once every three months.
+
+Being equipped to support the healthcare needs of children in their care is also important for carers. Providing training to carers would enable them to better manage the health needs of children in their care both in terms of understanding the condition(s) experienced by their children as well as the healthcare system which they need to navigate in order to meet their children's needs. Currently, the Western Australian government is piloting a health navigator program to improve the coordination between services [@hnpp2022], with the program underpinned by several principles including the creation of a culturally safe environment and adopting a trauma-informed approach [@hnppslides]. Findings from our qualitative interviews and conversations with the community reference group also highlighted that access to training to help them support the needs of children in their care was important, similar to research by Murray et al. [@murray2010].
+
+### Limitations {-}
+
+Primary care data are an important source of health information which may capture less-severe health conditions which are less likely to be recorded in hospital admissions data. By only using hospital records, ambulatory mental health contacts, and select registries we are likely underestimating the prevalence and cumulative incidence of the conditions of interest, especially given prevalence estimates reported when more comprehensive sources of information are available. If we assume that health service usage is similar across the comparison groups, meaning the scale of underestimation is consistent, relative comparisons remain informative.
+
+<!-- Further, while some conditions are chronic, others are transitory and may not be prevalent over the entire follow-up period. While this may limit the interpretability of the prevalence, carers of children in out-of-home care provide care for these children regardless of whether a diagnosis was made before or after children came into their care, with that child's health history being a relevant part of their care. -->
+
+<!-- Our methods may under-identify the prevalence of some conditions, such as autism, in children with shorter periods of follow-up time. This is due to the difficulty in making a diagnosis at an early age and parents' and carers' limited access to health professionals to obtain a diagnosis. In the I-CaRe WA study's qualitative interviews, carers who suspected their child had an intellectual disability were told to wait until the child entered the education system to seek a diagnosis, as it was too difficult to obtain a diagnosis at younger ages. -->
+
+Due to dataset limitations, there will be some children in the July 2015 to December 2019 period who are incorrectly classified as never-placed. An estimated two percent of the cohort may be misclassified, assuming one percent of children have their first placement recorded for every two years of age after age four, as found in our previous work [@harrap2023]. This misclassification would likely make the ever and never placed groups more comparable so our estimates will underestimate differences. This issue does not affect our analysis of children with placements before age one.
+
+### Conclusion {-}
+
+Our study identified a three-times greater prevalence of mental and neurodevelopmental health conditions generally for Aboriginal children born in WA with a placement in OOHC compared to Aboriginal children with no placement. For parents of children at risk of entering OOHC and carers of those placed in OOHC to meet the healthcare needs of these children, it is important for state government departments and service providers to coordinate in order to provide timely and sufficient social, educational, healthcare, and financial support for children entering OOHC and their carers. The provision of these services must be culturally safe, building on the strengths of children, families, and culture to meet the needs of the children and avoid stigmatising the children or their parents.
+
+Future data linkage research should incorporate additional datasets such as the Medicare Benefits Schedule and Pharmaceutical Benefits Scheme to improve the identification of certain conditions and healthcare system usage. For example, using the prescription of certain stimulants for managing ADHD would improve identification of the condition, or the usage of certain Medicare billing items (like Item 715) may give insight into healthcare system utilisation practices. 
+
+## Acknowledgements
+
+The primary author, Benjamin Harrap, is not an Aboriginal or Torres Strait Islander person. The I-CaRe WA study is an Aboriginal-led study which engages Aboriginal voices through its leadership and through study advisory, policy, and community reference groups, seeking feedback on ongoing and future research. The authors would like to thank the members of these groups for their feedback and contributions to the formation of this article.
+
+The authors wish to thank the staff at DLSWA and the custodians of the Death Registrations, Midwives Notification System, Birth Registrations, WA Register of Birth Defects, Intellectual Disability Exploring Answers, Mental Health Information System, Hospital Morbidity, and child protection datasets. The information presented does not reflect the views of the Data Linkage Branch or any of the data custodians.
+
+## Funding
+
+The project was funded by NHMRC Project Grant 1162968.
+
+## Tables and figures
+
+```{r demog, echo = FALSE}
+demog %>%
+  mutate(
+    place_pre1 = ifelse(Group == "10 - Greater advantage","n.p.",place_pre1),
+    place_post1 = ifelse(Group == "10 - Greater advantage","n.p.",place_post1),
+    place_pre1 = ifelse(Group == "9","n.p.",place_pre1),
+    place_post1 = ifelse(Group == "9","n.p.",place_post1),
+  ) |> 
+  select(-stat) %>%
+  kable(
+    booktabs = T,
+    caption = "Demographic characteristics of the matched cohorts.",
+    align = "c",
+    linesep = "",
+    col.names = NULL
+  ) %>%
+  kable_styling(latex_options = "HOLD_position",
+                full_width = TRUE) %>% 
+  add_header_above(h1) %>%
+  add_header_above(h2) |> 
+  add_footnote(label = "n.p. = Not published due to small cell count.")
+```
+
+```{r mhid, echo = FALSE}
+kable(
+  mhid,
+  booktabs = T,
+  caption = "Frequencies and prevalence estimates with 95-percent Clopper-Pearson confidence intervals for neurodevelopmental and mental health conditions for the two matched cohorts.",
+  align = "c",
+  linesep = "",
+  col.names = NULL
+) %>%
+  kable_styling(latex_options = "HOLD_position",
+                full_width = TRUE) %>%
+  add_header_above(h1) %>%
+  add_header_above(h2) %>%
+  add_footnote(
+    label = c(
+      "Values are presented as Number [Prevalence estimate (95% Confidence Interval)]",
+      "ID/DD/CA = Intellectual Disability/Developmental Delay/Congenital Abnormalities",
+      "FASD = Foetal Alcohol Spectrum Disorder",
+      "Any MH = Any Mental Health condition",
+      "PTSD = Post Traumatic Stress Disorder"
+    ),
+    notation = "none"
+  )
+```
+
+```{r cuminc, echo = FALSE, fig.cap="Cumulative incidence of foetal alcohol spectrum disorder (FASD), developmental delay, anxiety, and post-traumatic stress disorder (PTSD), for Aboriginal children born in Western Australia between 2000 and 2013, according to ever and never placed matched cohort group.", fig.pos="H"}
+include_graphics(here("4_health_profile","output","conditions.pdf"))
+```
